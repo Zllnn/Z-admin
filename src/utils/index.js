@@ -15,3 +15,10 @@ export function localSet (key, value) {
 export function localRemove (key) {
   window.localStorage.removeItem(key)
 }
+
+//抛出pathMap(对应路由中的name),用于改变不同页面的document.title
+export const pathMap = {
+  index: '首页',
+  login: '登录',
+  add: '添加商品'
+}
