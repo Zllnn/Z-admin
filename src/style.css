@@ -61,6 +61,13 @@ button:focus-visible {
   min-height: 100vh;
 }
 
+/* 分页居中工具类：在包含 el-pagination 的容器上添加该类 */
+.pagination-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

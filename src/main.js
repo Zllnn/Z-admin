@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-// import '@/styles/element/index.scss'
 import ElementPlus from 'element-plus'
 import router from '@/router'
 //引入icon组件

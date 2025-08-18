@@ -27,7 +27,7 @@
               </el-button>
             </el-form-item>
             <el-form-item class="flex">
-              <el-link type="info" :underline="false" @click="isRegister = false">
+              <el-link type="info" :underline="false" @click="state.isRegister = false">
                 去登录
               </el-link>
             </el-form-item>
@@ -57,7 +57,7 @@
               </el-button>
             </el-form-item>
             <el-form-item class="flex">
-              <el-link type="info" :underline="false" @click="isRegister = true">
+              <el-link type="info" :underline="false" @click="state.isRegister = true">
                 注册
               </el-link>
             </el-form-item>
@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import axios from '@/utils/axios';
 import { reactive, ref } from 'vue';
 import { localSet } from '../utils';
 import { ElMessage } from 'element-plus';

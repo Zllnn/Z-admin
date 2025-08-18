@@ -12,7 +12,8 @@
         <div class="line"></div>
 
         <!-- 下部导航 -->
-        <el-menu background-color="#222832" text-color="#fff" :router="true">
+        <el-menu background-color="#222832" text-color="#fff" :router="true" :default-openeds="state.defaultOpen"
+          :default-active="state.currentPath">
           <!-- 第一层 -->
           <el-sub-menu index="1">
             <template #title>
@@ -26,6 +27,16 @@
               <el-menu-item index="/add"><el-icon>
                   <CirclePlus />
                 </el-icon>添加二手商品</el-menu-item>
+            </el-menu-item-group>
+          </el-sub-menu>
+          <el-sub-menu index="2">
+            <template #title>
+              <span>首页配置</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/swiper"><el-icon>
+                  <Picture />
+                </el-icon> 轮播图配置</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>
@@ -58,24 +69,27 @@ const noMenu = ['/login']
 const router = useRouter()
 const state = reactive({
   showMenu: true, //是否需要显示菜单栏
+  defaultOpen:['1','2'],
+  currentPath: '/'
 })
 
 //全局前置守卫
-router.beforeEach((to,from,next) => {
-  if(to.path == '/login') {
+// router.beforeEach((to,from,next) => {
+//   if(to.path == '/login') {
     //如果去登录页面就放行
-    next()
-  } else {
+  //   next()
+  // } else {
     //如果不是登录页面，跳转至登录页面
-    if(!localGet('token')){
-      next({ path: '/login' })
-    } else {
-      next()
-    }
-  }
-  state.showMenu = !noMenu.includes(to.path)
-  document.title = pathMap[to.name]
-})
+//     if(!localGet('token')){
+//       next({ path: '/login' })
+//     } else {
+//       next()
+//     }
+//   }
+//   state.showMenu = !noMenu.includes(to.path)
+//   state.currentPath = to.path
+//   document.title = pathMap[to.name]
+// })
 </script>
 
 <style scoped>

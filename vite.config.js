@@ -19,7 +19,10 @@ export default defineConfig({
       })],
     }),
     // 用于内部方法调用，样式缺失的现象，如 ElMessage 等
-    ElementPlus()
+    // 使用源码样式，配合 SCSS 变量覆盖主题
+    ElementPlus({
+      useSource: true
+    })
   ],
   resolve: {
     alias: {
