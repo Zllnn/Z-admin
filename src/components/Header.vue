@@ -1,6 +1,7 @@
 <template>
   <div class="header">
     <div class="left">
+      <el-icon class="back" v-if="state.hasBack" @click="back"><Back /></el-icon>
       <span style="font-size: 20px;">{{ state.name }} </span>
     </div>
     <div class="right">
@@ -48,6 +49,7 @@ const state = reactive({
     nickName:'Zllnn',
     loginUserName: 'admin'
   }, //用户信息
+  hasBack: false, // 是否展示返回icon
 })
 
 //初始化执行方法,加载页面时获取用户信息（登录的时候获取用户信息）
@@ -72,12 +74,19 @@ const logout = () => {
   })
 }
 
-//路由前置守卫
+//路由前置守卫，用于监听路由变化
 router.afterEach((to) => {
   console.log(to);
   const {id} = to.query
   state.name = pathMap[to.name]  
+  // level2 和 level3 需要展示返回icon
+  state.hasBack = ['level2', 'level3'].includes(to.name)
 })
+
+// 返回方法
+const back = () => {
+  router.back()
+}
 </script>
 
 <style scoped>
@@ -89,6 +98,15 @@ router.afterEach((to) => {
   align-items: center;
   padding: 0 20px;
 }
+
+.header .left .back {
+  border: 1px solid #e9e9e9;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
 .right>div>.icon {
   font-size: 18px;
   margin-right: 6px;

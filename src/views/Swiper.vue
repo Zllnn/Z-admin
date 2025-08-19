@@ -76,6 +76,7 @@ import axios from '@/utils/axios';
 import { onMounted, reactive, ref } from 'vue';
 import DialogAddSwiper from '@/components/DialogAddSwiper.vue';
 import { ElMessage } from 'element-plus';
+import { Plus, Delete } from '@element-plus/icons-vue'
 
 const addSwiper = ref(null)
 const state = reactive({
