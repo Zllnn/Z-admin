@@ -3,8 +3,9 @@ import Index from '@/views/Index.vue'
 import AddGood from '@/views/AddGood.vue'
 import Login from '@/views/Login.vue'
 import Swiper from '@/views/Swiper.vue'
-import IndexConfig from '../views/IndexConfig.vue'
-import Category from '../views/Category.vue'
+import IndexConfig from '@/views/IndexConfig.vue'
+import Category from '@/views/Category.vue'
+import Good from '@/views/Good.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -60,7 +61,12 @@ const router = createRouter({
           component: Category,
         }
       ]
-    }
+    },
+    {
+      path: '/good',
+      name: 'good',
+      component: Good
+    },
   ]
 })
 

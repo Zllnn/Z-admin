@@ -14,7 +14,8 @@
     "element-plus": "^2.10.7",
     "js-md5": "^0.8.3",
     "vue": "^3.5.18",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.13",
+    "wangeditor": "^4.7.15"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
