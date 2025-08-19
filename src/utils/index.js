@@ -21,7 +21,10 @@ export const pathMap = {
   index: '首页',
   login: '登录',
   add: '添加商品',
-  swiper: '轮播图配置'
+  swiper: '轮播图配置',
+  hot: '热销商品配置',
+  new: '新品上线配置',
+  recommend: '为你推荐配置',
 }
 
 //单张图片上传

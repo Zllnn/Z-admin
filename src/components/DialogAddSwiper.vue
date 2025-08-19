@@ -25,7 +25,7 @@
     :on-success="handleUrlSuccess"
     >
     <img style="width: 200px; height: 100px; border:1px solid #e9e9e9" v-if="state.ruleForm.url" :src="state.ruleForm.url" class="avatar" alt="">
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
     </el-upload>
   </el-form-item>
     <el-form-item label="跳转链接" prop="link">
@@ -50,6 +50,7 @@ import { reactive, ref } from 'vue';
 import { localGet, uploadImgServer } from '@/utils';
 import axios from '@/utils/axios';
 import { ElMessage } from 'element-plus';
+import { Plus } from '@element-plus/icons-vue';
 
 //uploadImagServer
 const props = defineProps({
