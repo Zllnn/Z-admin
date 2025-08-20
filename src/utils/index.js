@@ -31,7 +31,8 @@ export const pathMap = {
   good: '商品管理',
   order: '订单管理',
   order_detail: '订单详情',
-  guest: '会员管理'
+  guest: '会员管理',
+  account: '修改密码'
 }
 
 //单张图片上传
