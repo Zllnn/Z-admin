@@ -29,6 +29,8 @@ export const pathMap = {
   level2: '分类二级管理',
   level3: '分类三级管理',
   good: '商品管理',
+  order: '订单管理',
+  order_detail: '订单详情',
 }
 
 //单张图片上传

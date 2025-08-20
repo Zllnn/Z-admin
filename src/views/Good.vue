@@ -1,5 +1,5 @@
 <template>
-  <el-card class="swiper-container">
+  <el-card class="swiper-container views">
     <template #header>
       <div class="header">
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增商品</el-button>
@@ -65,6 +65,7 @@
       </el-table-column>
     </el-table>
     <!--总数超过一页，再展示分页器-->
+    <div class="pagination-center footer">
     <el-pagination
       background
       layout="prev, pager, next"
@@ -73,6 +74,7 @@
       :current-page="state.currentPage"
       @current-change="changePage"
     />
+    </div>
   </el-card>
 </template>
 
@@ -164,5 +166,15 @@ const handleStatus = (id, status) => {
 </script>
 
 <style scoped>
+.footer {
+  margin-top: 20px;
+  position: absolute;
+  bottom: 20px;
+  left: 680px;
+}
 
+.views {
+  height: calc(100vh - 120px);
+  position: relative;
+}
 </style>
