@@ -20,7 +20,7 @@ app.use(ElementPlus)
 
 // 全局方法,防止图片路径出错
 app.config.globalProperties.$filters = {
-  prefix(url) {
+  prefix(url: string): string {
     if (url && url.startsWith('http')) {
       // 当 url 以 http 开头时候，我们返回原路径
       return url
@@ -29,16 +29,21 @@ app.config.globalProperties.$filters = {
       url = ''
       return url
     }
+  },
+  orderMap(status: number): string {
+    return orderStatus[status] || '未知状态'
   }
 }
 
 //每次翻页之后将滚动条滑动到顶部
-app.config.globalProperties.goTop = function () {
-  const main = document.querySelector('.main')
-  main.scrollTop = 0
+app.config.globalProperties.goTop = function (): void {
+  const main = document.querySelector('.main') as HTMLElement
+  if (main) {
+    main.scrollTop = 0
+  }
 }
 
-const orderStatus = {
+const orderStatus: Record<string | number, string> = {
   0: '待支付',
   1: '已支付',
   2: '配货完成',
@@ -51,10 +56,10 @@ const orderStatus = {
 
 // 全局方法
 app.config.globalProperties.$filters = {
-  orderMap(status) {
+  orderMap(status: number): string {
     return orderStatus[status] || '未知状态'
   },
-  prefix(url) {
+  prefix(url: string): string {
     if (url && url.startsWith('http')) {
       return url
     } else {

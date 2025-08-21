@@ -1,4 +1,16 @@
-export default {
+interface Config {
+  development: {
+    baseURL: string;
+  };
+  beta: {
+    baseURL: string;
+  };
+  release: {
+    baseURL: string;
+  };
+}
+
+const config: Config = {
   development: {
     baseURL: '/api'  //开发代理地址
   },
@@ -9,3 +21,5 @@ export default {
     baseURL: '//backend-api-02.newbee.ltd/manage-api/v1' // 正式接口域名
   }
 }
+
+export default config

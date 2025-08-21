@@ -1,23 +1,23 @@
 //本地数据获取的封装
-export function localGet (key) {
+export function localGet(key: string): any {
   const value = window.localStorage.getItem(key)
   try {
-    return JSON.parse(window.localStorage.getItem(key))
+    return JSON.parse(window.localStorage.getItem(key) || '')
   } catch (error) {
     return value
   }
 }
 
-export function localSet (key, value) {
+export function localSet(key: string, value: any): void {
   window.localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function localRemove (key) {
+export function localRemove(key: string): void {
   window.localStorage.removeItem(key)
 }
 
 //抛出pathMap(对应路由中的name),用于改变不同页面的document.title
-export const pathMap = {
+export const pathMap: Record<string, string> = {
   index: '首页',
   login: '登录',
   add: '添加商品',
