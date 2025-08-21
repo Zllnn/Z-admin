@@ -27,7 +27,7 @@
   </el-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import axios from '@/utils/axios';
 import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'

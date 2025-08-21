@@ -30,63 +30,76 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import axios from '@/utils/axios';
 import { onMounted, reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, RouteLocationNormalized } from 'vue-router';
 import { localRemove, pathMap } from '@/utils';
 import { ElIcon } from 'element-plus'
 import { UserFilled, CaretBottom } from '@element-plus/icons-vue'
 
+interface UserInfo {
+  nickName: string;
+  loginUserName: string;
+}
+
+interface State {
+  name: string;
+  userInfo: UserInfo;
+  hasBack: boolean;
+}
 
 //获取路由实例
-const router = useRouter()
+const router = useRouter();
+
 //声明路由和title对应的键值对
 // const pathMap = pathMap
-const state = reactive({
+const state = reactive<State>({
   name:'首页',
   userInfo: {
     nickName:'Zllnn',
     loginUserName: 'admin'
   }, //用户信息
   hasBack: false, // 是否展示返回icon
-})
+});
 
 //初始化执行方法,加载页面时获取用户信息（登录的时候获取用户信息）
 onMounted(() => {
-  const pathname = window.location.hash.split('/')[1] || ''
+  const pathname = window.location.hash.split('/')[1] || '';
   if(!['login'].includes(pathname)){
-    getUserInfo()
+    getUserInfo();
   }
-})
+});
+
 //获取用户信息
-const getUserInfo = async () => {
+const getUserInfo = async (): Promise<void> => {
   // const userInfo = await axios.get('/adminUser/profile')
   // state.userInfo = userInfo
-}
+};
+
 //退出登录
-const logout = () => {
+const logout = (): void => {
   axios.delete('/logout').then(() => {
     //退出的时候清理token
-    localRemove('token')
+    localRemove('token');
     //回到首页
-    router.push({path: '/login'})
-  })
-}
+    router.push({path: '/login'});
+  });
+};
 
 //路由前置守卫，用于监听路由变化
-router.afterEach((to) => {
+router.afterEach((to: RouteLocationNormalized) => {
   console.log(to);
-  const {id} = to.query
-  state.name = pathMap[to.name]  
+  const {id} = to.query;
+  state.name = pathMap[to.name as keyof typeof pathMap] || '首页';  
   // level2 和 level3 需要展示返回icon
-  state.hasBack = ['level2', 'level3'].includes(to.name)
-})
+  state.hasBack = ['level2', 'level3'].includes(to.name as string);
+});
 
 // 返回方法
-const back = () => {
-  router.back()
-}
+const back = (): void => {
+  router.back();
+};
 </script>
 
 <style lang="scss" scoped>

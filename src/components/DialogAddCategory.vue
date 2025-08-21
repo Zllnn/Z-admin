@@ -21,21 +21,39 @@
   </el-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
+import type { FormInstance } from 'element-plus'
+
+interface Props {
+  type: 'add' | 'edit';
+  reload?: () => void;
+}
+
+interface RuleForm {
+  name: string;
+  rank: string | number;
+}
+
+interface State {
+  visible: boolean;
+  categoryLevel: number;
+  parentId: number;
+  ruleForm: RuleForm;
+  rules: Record<string, any[]>;
+  id: string | number;
+}
 
 //接收参数
-const props = defineProps({
-  type: String, // 用于判断是添加还是编辑
-  reload: Function // 添加或修改完后，刷新列表页,发请求获取新数据
-})
+const props = defineProps<Props>();
 
-const formRef = ref(null)
-const route = useRoute() //获取路由参数
-const state = reactive({
+const formRef = ref<FormInstance | null>(null);
+const route = useRoute(); //获取路由参数
+
+const state = reactive<State>({
   visible: false,
   categoryLevel: 1,
   parentId: 0,
@@ -52,10 +70,10 @@ const state = reactive({
     ]
   },
   id: '' //存在数据库中的id主键字段
-})
+});
 
 // 获取详情
-const getDetail = (id) => {
+const getDetail = (id: string | number): void => {
   // axios.get(`/categories/${id}`).then(res => {
   //   state.ruleForm = {
   //     name: res.categoryName,
@@ -64,36 +82,36 @@ const getDetail = (id) => {
   //   state.parentId = res.parentId
   //   state.categoryLevel = res.categoryLevel
   // })
-}
+};
 
 // 开启弹窗
-const open = (id) => {
-  state.visible = true
+const open = (id?: string | number): void => {
+  state.visible = true;
   if (id) {
-    state.id = id
+    state.id = id;
     // 如果是有 id 传入，证明是修改模式
-    getDetail(id)
+    getDetail(id);
   } else {
     // 否则为新增模式
     // 新增类目，从路由获取分类 level 级别和父分类 id
-    const { level = 1, parent_id = 0 } = route.query
+    const { level = 1, parent_id = 0 } = route.query;
     state.ruleForm = {
       name: '',
       rank: ''
-    }
-    state.parentId = parent_id
-    state.categoryLevel = level
+    };
+    state.parentId = Number(parent_id);
+    state.categoryLevel = Number(level);
   }
-}
+};
 
 // 关闭弹窗
-const close = () => {
-  state.visible = false
-}
+const close = (): void => {
+  state.visible = false;
+};
 
 //提交按钮
-const submitForm = () => {
-  formRef.value.validate((valid) => {
+const submitForm = (): void => {
+  formRef.value?.validate((valid: boolean) => {
     if (valid) {
       if (props.type == 'add') {
         // 添加方法
@@ -124,11 +142,11 @@ const submitForm = () => {
         // })
       }
     }
-  })
-}
+  });
+};
 
 // 通过模板 ref 提供 open/close 方法给父组件调用
-defineExpose({ open, close })
+defineExpose({ open, close });
 
 
 </script>

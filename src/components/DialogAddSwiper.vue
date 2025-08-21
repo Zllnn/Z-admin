@@ -44,22 +44,42 @@
   </el-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 //只在父组件调用open方法的时候弹出此页面
 import { reactive, ref } from 'vue';
 import { localGet, uploadImgServer } from '@/utils';
 import axios from '@/utils/axios';
 import { ElMessage } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
+import type { FormInstance } from 'element-plus';
+
+interface Props {
+  type: 'add' | 'edit';
+  reload?: () => void;
+}
+
+interface RuleForm {
+  url: string;
+  link: string;
+  sort: string | number;
+}
+
+interface State {
+  uploadImgServer: string;
+  token: string;
+  visible: boolean;
+  ruleForm: RuleForm;
+  rules: Record<string, any[]>;
+  id: string | number;
+}
 
 //uploadImagServer
-const props = defineProps({
-  type: String, //add为新增；edit为编辑
-  reload:Function //table的刷新方法
-})
+const props = defineProps<Props>();
+
 //用于表单验证控制，相当于v2中的ref
-const formRef = ref(null)
-const state = reactive({
+const formRef = ref<FormInstance | null>(null);
+
+const state = reactive<State>({
   uploadImgServer, //相当于直接赋值
   token: localGet('token') || '', //用于调用上传图片接口时，放在请求头中的token验证
   visible: false, //控制弹窗的显示隐藏
@@ -77,52 +97,59 @@ const state = reactive({
     ]
   },
   id: '' //编辑时候需要用到的id
-})
+});
+
 //获取详情(父组件调用的时候用于获取信息)
-const getDetail = (id) => {
-  axios.get(`/carousels/${id}`).then(res => {
+const getDetail = (id: string | number): void => {
+  axios.get(`/carousels/${id}`).then((res: any) => {
     state.ruleForm = {
       url: res.carouselUrl,
       link: res.redirectUrl,
       sort: res.carouselRank
-    }
-  })
-}
+    };
+  });
+};
+
 // 上传之前，控制上传的文件。
-const handleBeforeUpload = (file) => {
-  const sufix = file.name.split('.')[1] || ''
+const handleBeforeUpload = (file: File): boolean => {
+  const sufix = file.name.split('.')[1] || '';
   if (!['jpg', 'jpeg', 'png'].includes(sufix)) {
-    ElMessage.error('请上传 jpg、jpeg、png 格式的图片')
-    return false
+    ElMessage.error('请上传 jpg、jpeg、png 格式的图片');
+    return false;
   }
-}
+  return true;
+};
+
 //上传图片，成功之后的回调   val是返回的数据
-const handleUrlSuccess = (val) => {
-  state.ruleForm.url = val.data || ''
-}
+const handleUrlSuccess = (val: any): void => {
+  state.ruleForm.url = val.data || '';
+};
+
 //开启弹窗，此方法将在父组件，通过ref直接调用，后面会暴露出去
-const open = (id) => {
-  state.visible = true
+const open = (id?: string | number): void => {
+  state.visible = true;
   //如果有id,则是编辑,没有就是新增
   if(id) {
-    state.id = id
-    getDetail(id)
+    state.id = id;
+    getDetail(id);
   } else {
     state.ruleForm = {
       url:'',
       link:'',
       sort:''
-    }
+    };
   }
-}
+};
+
 //关闭弹窗
-const close = () => {
-  state.visible = false
-}
+const close = (): void => {
+  state.visible = false;
+};
+
 //提交表单方法
-const submitForm = () => {
+const submitForm = (): void => {
   console.log(111);
-  formRef.value.validate((valid) => {
+  formRef.value?.validate((valid: boolean) => {
     //valid为是否通过表单验证，Boolean值
     if(valid) {
       //区分增加的编辑，调用的接口不一样
@@ -150,10 +177,11 @@ const submitForm = () => {
         // })
       }
     }
-  })
-}
+  });
+};
+
 // 会在外面使用组件内部的方法，需通过 defineExpose 方法，将属性暴露出去。
-defineExpose({ open, close })
+defineExpose({ open, close });
 </script>
 
 <style lang="scss" scoped>
