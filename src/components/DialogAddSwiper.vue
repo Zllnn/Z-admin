@@ -156,24 +156,26 @@ const submitForm = () => {
 defineExpose({ open, close })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .avatar-uploader {
   width: 100px;
   height: 100px;
   color: #ddd;
   font-size: 30px;
-}
   
-.avatar-uploader>>>.el-upload {
-  width: 100%;
-  text-align: center;
+  :deep(.el-upload) {
+    width: 100%;
+    text-align: center;
+  }
 }
   
 .avatar-uploader-icon {
   display: block;
   width: 100%;
   height: 100%;
-  border: 1px solid #e9e9e9;
-  padding: 32px 17px;
+  border: 1px solid $border-light;
+  padding: $spacing-xl $spacing-md;
 }
 </style>

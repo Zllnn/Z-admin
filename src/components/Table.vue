@@ -70,11 +70,13 @@ defineExpose({ state: state, getList: getList })
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .footer {
-  margin-top: 20px;
+  margin-top: $spacing-lg;
   position: absolute;
-  bottom: 20px;
+  bottom: $spacing-lg;
   left: 680px;
 }
 </style>

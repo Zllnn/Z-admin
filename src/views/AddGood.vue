@@ -237,28 +237,30 @@ const handleChangeCate = (val) => {
 
 </script>
 
-<style scoped>
- .add {
-   display: flex;
- }
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
 
- .add-container {
-   flex: 1;
-   height: 100%;
- }
+.add {
+  display: flex;
+}
 
- .avatar-uploader {
-   width: 100px;
-   height: 100px;
-   color: #ddd;
-   font-size: 30px;
- }
+.add-container {
+  flex: 1;
+  height: 100%;
+}
 
- .avatar-uploader-icon {
-   display: block;
-   width: 100%;
-   height: 100%;
-   border: 1px solid #e9e9e9;
-   padding: 32px 17px;
- }
+.avatar-uploader {
+  width: 100px;
+  height: 100px;
+  color: #ddd;
+  font-size: 30px;
+}
+
+.avatar-uploader-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid $border-light;
+  padding: $spacing-xl $spacing-md;
+}
 </style>

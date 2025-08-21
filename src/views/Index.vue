@@ -149,22 +149,24 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
- .introduce .order {
-   display: flex;
-   margin-bottom: 50px;
- }
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
 
- .introduce .order .order-item {
-   flex: 1;
-   margin-right: 20px;
- }
+.introduce .order {
+  display: flex;
+  margin-bottom: $spacing-xxl;
+  
+  .order-item {
+    flex: 1;
+    margin-right: $spacing-lg;
+    
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
 
- .introduce .order .order-item:last-child {
-   margin-right: 0;
- }
-
- #zoom {
+#zoom {
   min-height: 300px;
- }
+}
 </style>

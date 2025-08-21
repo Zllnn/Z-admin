@@ -202,7 +202,8 @@ const handleDeleteOne = (id) => {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
 
 .index-container {
   min-height: 100%;
@@ -211,10 +212,11 @@ const handleDeleteOne = (id) => {
 .el-card.is-always-shadow {
   min-height: 100% !important;
 }
+
 .footer {
-  margin-top: 20px;
+  margin-top: $spacing-lg;
   position: absolute;
-  bottom: 20px;
+  bottom: $spacing-lg;
   left: 680px;
 }
 

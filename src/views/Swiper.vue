@@ -155,19 +155,18 @@ const changePage = (val) => {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .footer {
-  margin-top: 20px;
+  margin-top: $spacing-lg;
   position: absolute;
-  bottom: 20px;
+  bottom: $spacing-lg;
   left: 680px;
 }
 
 .views {
   height: calc(100vh - 120px);
   position: relative;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content:space-between; */
 }
 </style>

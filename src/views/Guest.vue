@@ -95,13 +95,9 @@ const handleForbid = () => {
 
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
 .views {
   height: calc(100vh - 120px);
   position: relative;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content:space-between; */
 }
 </style>

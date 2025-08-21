@@ -89,50 +89,53 @@ const back = () => {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .header {
   height: 50px;
-  border-bottom: 1px solid #e9e9e9;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.header .left .back {
-  border: 1px solid #e9e9e9;
-  padding: 5px;
-  border-radius: 50%;
-  margin-right: 5px;
-  cursor: pointer;
-}
-
-.right>div>.icon {
-  font-size: 18px;
-  margin-right: 6px;
-}
-
-.author {
-  margin-left: 10px;
-  cursor: pointer;
+  border-bottom: 1px solid $border-light;
+  @include flex-between;
+  padding: 0 $spacing-lg;
+  
+  .left .back {
+    border: 1px solid $border-light;
+    padding: $spacing-xs;
+    border-radius: $border-radius-round;
+    margin-right: $spacing-xs;
+    cursor: pointer;
+  }
+  
+  .right > div > .icon {
+    font-size: $font-size-large;
+    margin-right: $spacing-xs;
+  }
+  
+  .author {
+    margin-left: $spacing-sm;
+    cursor: pointer;
+  }
 }
 </style>
-<style>
+
+<style lang="scss">
+@import '@/styles/variables.scss';
+
 .popper-user-box {
   background: url('https://s.yezgea02.com/lingling-h5/static/account-banner-bg.png') 50% 50% no-repeat !important;
   background-size: cover !important;
   border-radius: 0 !important;
-}
-
-.popper-user-box .nickname {
-  position: relative;
-  color: #ffffff;
-}
-
-.popper-user-box .nickname .logout {
-  position: absolute;
-  right: 0;
-  top: 0;
-  cursor: pointer;
+  
+  .nickname {
+    position: relative;
+    color: $background-white;
+    
+    .logout {
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: pointer;
+    }
+  }
 }
 </style>

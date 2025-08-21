@@ -120,10 +120,12 @@ const state = reactive({
 // })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .layout {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: $background-white;
 }
 
 .container {
@@ -136,31 +138,28 @@ const state = reactive({
 }
 
 .head {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   height: 50px;
-}
-
-.head>div {
-  display: flex;
-  align-items: center;
-}
-
-.head img {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-}
-
-.head span {
-  font-size: 20px;
-  color: #ffffff;
+  
+  > div {
+    @include flex-center;
+  }
+  
+  img {
+    width: 50px;
+    height: 50px;
+    margin-right: $spacing-sm;
+  }
+  
+  span {
+    font-size: $font-size-extra-large;
+    color: $background-white;
+  }
 }
 
 .line {
-  border-top: 1px solid hsla(0, 0%, 100%, .05);
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  border-top: 1px solid hsla(0, 0%, 100%, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .content {
@@ -172,16 +171,7 @@ const state = reactive({
 
 .main {
   height: calc(100vh - 100px);
-  /* height: 100vh; */
   overflow: auto;
-  padding: 10px;
-}
-</style>
-
-<style>
-body {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+  padding: $spacing-sm;
 }
 </style>

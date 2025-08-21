@@ -161,9 +161,11 @@ const Regist = async () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .login-page {
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.1); // 修改背景颜色为半透明的白色
+  background-color: rgba(255, 255, 255, 0.1);
   background-image: url("@/assets/login_back_.jpg");
   background-size: 100%;
 
@@ -179,33 +181,31 @@ const Regist = async () => {
 
     .button {
       width: 100%;
-      border-radius: 20px;
+      border-radius: $spacing-lg;
     }
 
     .flex {
       width: 100%;
-      display: flex;
-      justify-content: space-between;
+      @include flex-between;
     }
   }
 }
 
 .inner {
-  display: flex;
-  justify-content: space-between;
-  background-color: black;
+  @include flex-between;
+  background-color: $background-black;
   opacity: 0.7;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 1);
+  box-shadow: $box-shadow-dark;
 }
 
 .innerbgc {
   width: 70%;
-  margin: 20px;
+  margin: $spacing-lg;
 }
 
 .innerlogin {
   height: auto;
   width: 30%;
-  margin: 20px;
+  margin: $spacing-lg;
 }
 </style>

@@ -87,35 +87,37 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .data {
   display: flex;
-  margin-bottom: 50px;
-}
+  margin-bottom: $spacing-xxl;
   
-.data .data-item {
-  flex: 1;
-  margin: 0 10px;
+  .data-item {
+    flex: 1;
+    margin: 0 $spacing-sm;
+  }
 }
   
 .el-table {
-  border: 1px solid #EBEEF5;
+  border: 1px solid $border-lighter;
   border-bottom: none;
 }
   
 .has-gutter th {
-  border-right: 1px solid #EBEEF5;
-}
+  border-right: 1px solid $border-lighter;
   
-.has-gutter th:last-child {
-  border-right: none;
+  &:last-child {
+    border-right: none;
+  }
 }
   
 .el-table__row td {
-  border-right: 1px solid #EBEEF5;
-}
+  border-right: 1px solid $border-lighter;
   
-.el-table__row td:last-child {
-  border-right: none;
+  &:last-child {
+    border-right: none;
+  }
 }
 </style>
