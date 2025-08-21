@@ -68,28 +68,42 @@
   </el-row>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import axios from '@/utils/axios';
 import { reactive, ref } from 'vue';
 import { localSet } from '../utils';
 import { ElMessage } from 'element-plus';
 import { User, Lock } from '@element-plus/icons-vue'
+import type { FormInstance, FormItemRule } from 'element-plus';
 // 安装 js-md5，密码需要 md5 加密，服务端是解密 md5 的形式
 import md5 from 'js-md5'
 
+interface FormModel {
+  username: string;
+  password: string;
+  repassword: string;
+}
 
+interface State {
+  fromModel: FormModel;
+  isRegister: boolean;
+  checked: boolean;
+  rules: Record<string, FormItemRule[]>;
+}
 
 //el-from组件接收一个ref属性
-const loginForm = ref(null)
+const loginForm = ref<FormInstance | null>(null);
+
 //表单校验（注册时）
-const validatePass = (rule, value, callback) => {
-  if (value !== fromModel.value.password) {
-    callback(new Error('两次输入密码不一致'))
+const validatePass = (rule: any, value: string, callback: any): void => {
+  if (value !== state.fromModel.password) {
+    callback(new Error('两次输入密码不一致'));
   } else {
-    callback()
+    callback();
   }
-}
-const state = reactive({
+};
+
+const state = reactive<State>({
   fromModel: {
     username: '', //账号
     password: '', //密码
@@ -116,48 +130,48 @@ const state = reactive({
       { validator: validatePass, trigger: 'blur' },
     ]
   },
-})
+});
 
 //登录
-const login = async () => {
+const login = async (): Promise<void> => {
   //表单校验
-  loginForm.value.validate((valid) => {
+  loginForm.value?.validate((valid: boolean) => {
     //valid是布尔值,表示是否通过了校验
     if(valid) {
       // /adminUser/login 登录接口路径
       axios.post('/adminUser/login', {
         username: state.fromModel.username || '',
         password: md5(state.fromModel.password), //密码进行md5加密,后端通过md5解密
-      }).then(res => {
-        ElMessage.success('登录成功')
+      }).then((res: any) => {
+        ElMessage.success('登录成功');
         //将得到的token存入localStorage
-        localSet('token', res)
+        localSet('token', res);
         //此处登录完成之后需要刷新页面,因为需要将token放入请求头中
-        window.location.href = '/'
-      })
+        window.location.href = '/';
+      });
     } else {
       console.log('error submit!!');
-      return false
+      return false;
     }
-  })
-}
+  });
+};
 
 //注册
-const Regist = async () => {
+const Regist = async (): Promise<void> => {
   //表单校验
-  loginForm.value.validate((valid) => {
+  loginForm.value?.validate((valid: boolean) => {
     if(valid) {
       // /adminUser/regist 注册接口路径
       axios.post('/adminUser/regist', {
         username: state.fromModel.username || '',
         password: md5(state.fromModel.password), //密码进行md5加密,后端通过md5解密
-      }).then(res => {
-        ElMessage.success('注册成功')
-        state.fromModel.isRegister = false
-      })
+      }).then((res: any) => {
+        ElMessage.success('注册成功');
+        state.isRegister = false;
+      });
     }
-  })
-}
+  });
+};
 </script>
 
 <style lang="scss" scoped>

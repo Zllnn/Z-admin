@@ -30,16 +30,21 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
 
+declare global {
+  interface Window {
+    echarts: any;
+  }
+}
 
-let myChart = null
+let myChart: any = null;
 
 onMounted(() => {
   if(window.echarts) {
     //基于准备好的dom，初始化echarts实例
-    myChart = window.echarts.init(document.getElementById('zoom'))
+    myChart = window.echarts.init(document.getElementById('zoom'));
 
     //指定图表的配置项和数据
     const option = {
@@ -137,16 +142,18 @@ onMounted(() => {
           data: [820, 932, 901, 934, 1290, 1330, 1320]
         }
       ]
-    }
+    };
 
     // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option)
+    myChart.setOption(option);
   }
-})
+});
 
 onUnmounted(() => {
-  myChart.dispose()
-})
+  if (myChart) {
+    myChart.dispose();
+  }
+});
 </script>
 
 <style lang="scss" scoped>

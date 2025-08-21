@@ -78,18 +78,44 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { getCurrentInstance } from 'vue'
 
-const app = getCurrentInstance()
-const { goTop } = app.appContext.config.globalProperties
+interface GoodData {
+  createTime: string;
+  goodsCarousel: string;
+  goodsCategoryId: number;
+  goodsCoverImg: string;
+  goodsDetailContent: string | null;
+  goodsId: number;
+  goodsIntro: string;
+  goodsName: string;
+  goodsSellStatus: number;
+  originalPrice: number;
+  sellingPrice: number;
+  stockNum: number;
+  tag: string;
+  updateTime: string;
+}
 
-const router = useRouter() // 获取路由实例，内涵路由相关的各种方法。
-const state = reactive({
+interface State {
+  loading: boolean;
+  tableData: GoodData[];
+  currentPage: number;
+  pageSize: number;
+  total: number;
+}
+
+const app = getCurrentInstance();
+const { goTop } = app?.appContext.config.globalProperties || {};
+
+const router = useRouter(); // 获取路由实例，内涵路由相关的各种方法。
+
+const state = reactive<State>({
   loading: false, // 列表数据接口返回前的 loadinig
   tableData: [
     {

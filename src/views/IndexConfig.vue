@@ -87,7 +87,7 @@
   <DialogAddGood ref='addGood' :reload="getIndexConfig" :type="state.type" :configType="state.configType" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from '@/utils/axios'
@@ -95,8 +95,28 @@ import { ElMessage } from 'element-plus'
 import DialogAddGood from '@/components/DialogAddGood.vue'
 import { Plus, Delete } from '@element-plus/icons-vue'
 
+interface ConfigData {
+  configId: number;
+  configName: string;
+  redirectUrl: string;
+  configRank: number;
+  goodsId: number;
+  createTime: string;
+}
+
+interface State {
+  loading: boolean;
+  tableData: ConfigData[];
+  currentPage: number;
+  pageSize: number;
+  type: 'add' | 'edit';
+  configType: number;
+  multipleSelection: any[];
+  total: number;
+}
+
 // 首页配置类型参数
-const configTypeMap = {
+const configTypeMap: Record<string, number> = {
   hot: 3, // 热销
   new: 4, // 新品
   recommend: 5, // 推荐

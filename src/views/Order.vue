@@ -121,13 +121,45 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { HomeFilled, Delete } from '@element-plus/icons-vue'
 import axios from '@/utils/axios'
 
-const state = reactive({
+interface OrderData {
+  createTime: string;
+  extraInfo: string;
+  isDeleted: number;
+  orderId: number;
+  orderNo: string;
+  orderStatus: number;
+  payStatus: number;
+  payTime: string;
+  payType: number;
+  totalPrice: number;
+  updateTime: string;
+  userId: number;
+}
+
+interface Option {
+  value: string | number;
+  label: string;
+}
+
+interface State {
+  loading: boolean;
+  tableData: OrderData[];
+  multipleSelection: any[];
+  total: number;
+  currentPage: number;
+  pageSize: number;
+  orderNo: string;
+  orderStatus: string | number;
+  options: Option[];
+}
+
+const state = reactive<State>({
   loading: false,
   tableData: [
     {
@@ -180,7 +212,7 @@ const state = reactive({
     value: -3,
     label: '商家关闭'
   }]
-})
+});
 
 // 初始化获取订单列表
 onMounted(() => {

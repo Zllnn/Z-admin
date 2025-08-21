@@ -77,7 +77,7 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import axios from '@/utils/axios'
 import { useRoute, useRouter } from 'vue-router'
@@ -85,10 +85,29 @@ import { ElMessage } from 'element-plus'
 import { Plus, Delete } from '@element-plus/icons-vue'
 import DialogAddCategory from '@/components/DialogAddCategory.vue'
 
-const addCate = ref(null) //获取增加的弹窗组件
-const router = useRouter() // 声明路由实例
-const route = useRoute() // 获取路由参数
-const state = reactive({
+interface CategoryData {
+  categoryName: string;
+  categoryRank: number;
+  createTime: string;
+  categoryId: number;
+  categoryLevel: number;
+}
+
+interface State {
+  loading: boolean;
+  tableData: CategoryData[];
+  currentPage: number;
+  pageSize: number;
+  type: 'add' | 'edit';
+  multipleSelection: any[];
+  total: number;
+}
+
+const addCate = ref<InstanceType<typeof DialogAddCategory> | null>(null); //获取增加的弹窗组件
+const router = useRouter(); // 声明路由实例
+const route = useRoute(); // 获取路由参数
+
+const state = reactive<State>({
   loading: false,
   tableData: [
     { categoryName: '趣事', categoryRank: 1, createTime: '2025-09-01 10:00:00', categoryId: 101, categoryLevel: 1 },

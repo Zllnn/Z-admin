@@ -27,15 +27,34 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import md5 from 'js-md5'
 
-const nameRef = ref(null) // 修改名称 ref
-const passRef = ref(null) // 修改密码 ref
-const state = reactive({
+interface NameForm {
+  loginName: string;
+  nickName: string;
+}
+
+interface PassForm {
+  oldpass: string;
+  newpass: string;
+}
+
+interface State {
+  user: any;
+  nameForm: NameForm;
+  passForm: PassForm;
+  rules: Record<string, any[]>;
+}
+
+const nameRef = ref<FormInstance | null>(null); // 修改名称 ref
+const passRef = ref<FormInstance | null>(null); // 修改密码 ref
+
+const state = reactive<State>({
   user: null,
   nameForm: {
     loginName: '',
@@ -60,46 +79,47 @@ const state = reactive({
       { required: 'true', message: '新密码不能为空', trigger: ['change'] }
     ]
   },
-})
+});
+
 // 初始化钩子
 onMounted(() => {
   // 获取用户信息
-  // axios.get('/adminUser/profile').then(res => {
-  //   state.user = res
-  //   state.nameForm.loginName = res.loginUserName
-  //   state.nameForm.nickName = res.nickName
-  // })
-})
+  // axios.get('/adminUser/profile').then((res: any) => {
+  //   state.user = res;
+  //   state.nameForm.loginName = res.loginUserName;
+  //   state.nameForm.nickName = res.nickName;
+  // });
+});
 
 // 提交昵称登录名修改
-const submitName = () => {
-  nameRef.value.validate((vaild) => {
-    if (vaild) {
+const submitName = (): void => {
+  nameRef.value?.validate((valid: boolean) => {
+    if (valid) {
       // axios.put('/adminUser/name', {
       //   loginUserName: state.nameForm.loginName,
       //   nickName: state.nameForm.nickName
       // }).then(() => {
-      //   ElMessage.success('修改成功')
-      //   window.location.reload()
-      // })
+      //   ElMessage.success('修改成功');
+      //   window.location.reload();
+      // });
     }
-  })
-}
+  });
+};
 
 // 提交密码修改
-const submitPass = () => {
-  passRef.value.validate((vaild) => {
-    if (vaild) {
+const submitPass = (): void => {
+  passRef.value?.validate((valid: boolean) => {
+    if (valid) {
       // axios.put('/adminUser/password', {
       //   originalPassword: md5(state.passForm.oldpass),
       //   newPassword: md5(state.passForm.newpass)
       // }).then(() => {
-      //   ElMessage.success('修改成功')
-      //   window.location.reload()
-      // })
+      //   ElMessage.success('修改成功');
+      //   window.location.reload();
+      // });
     }
-  })
-}
+  });
+};
 
 </script>
 

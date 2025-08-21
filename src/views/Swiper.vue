@@ -71,15 +71,33 @@
   <DialogAddSwiper ref="addSwiper" :reload="getCarousels" :type="state.type"></DialogAddSwiper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import axios from '@/utils/axios';
 import { onMounted, reactive, ref } from 'vue';
 import DialogAddSwiper from '@/components/DialogAddSwiper.vue';
 import { ElMessage } from 'element-plus';
 import { Plus, Delete } from '@element-plus/icons-vue'
 
-const addSwiper = ref(null)
-const state = reactive({
+interface TableData {
+  carouselUrl: string;
+  redirectUrl: string;
+  carouselRank: number;
+  createTime: string;
+}
+
+interface State {
+  loading: boolean;
+  tableData: TableData[];
+  currentPage: number;
+  pageSize: number;
+  type: 'add' | 'edit';
+  multipleSelection: any[];
+  total: number;
+}
+
+const addSwiper = ref<InstanceType<typeof DialogAddSwiper> | null>(null);
+
+const state = reactive<State>({
   loading: true, //控制加载动画
   tableData: [
     {
@@ -94,10 +112,10 @@ const state = reactive({
   type: 'add', //操作类型,增加or编辑
   multipleSelection: [], //选中项
   total: 0, //页面总条数
-})
+});
 
 //选中之后的change方法，一旦选项有变化就会触发该方法
-const handleSelectionChange = (val) => {
+const handleSelectionChange = (val: any[]): void => {
   state.multipleSelection = val
 }
 

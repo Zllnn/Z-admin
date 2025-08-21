@@ -67,24 +67,49 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from '@/utils/axios'
 
-const route = useRoute()
-const { id } = route.query
-const state = reactive({
-  data: {},
+interface OrderData {
+  orderStatusString: string;
+  createTime: string;
+  orderNo: string;
+}
+
+interface TableData {
+  goodsId: number;
+  goodsCoverImg: string;
+  goodsName: string;
+  goodsCount: number;
+  sellingPrice: number;
+}
+
+interface State {
+  data: OrderData;
+  tableData: TableData[];
+}
+
+const route = useRoute();
+const { id } = route.query;
+
+const state = reactive<State>({
+  data: {
+    orderStatusString: '',
+    createTime: '',
+    orderNo: ''
+  },
   tableData: []
-})
+});
+
 onMounted(() => {
   // 初始化钩子，获取订单详情数据
-  // axios.get(`/orders/${id}`).then(res => {
-  //   state.data = res
-  //   state.tableData = res.newBeeMallOrderItemVOS
-  // })
-})
+  // axios.get(`/orders/${id}`).then((res: any) => {
+  //   state.data = res;
+  //   state.tableData = res.newBeeMallOrderItemVOS;
+  // });
+});
 </script>
 
 <style lang="scss" scoped>

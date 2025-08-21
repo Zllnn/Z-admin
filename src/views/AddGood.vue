@@ -57,24 +57,51 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref, toRefs, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 import WangEditor from 'wangeditor'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import { localGet, uploadImgServer, uploadImgsServer } from '@/utils'
+import type { FormInstance } from 'element-plus'
 
-const { proxy } = getCurrentInstance()
-const editor = ref(null) // 富文本编辑器 ref
-const goodRef = ref(null) // 表单 ref
-const route = useRoute()
-const router = useRouter()
-const { id } = route.query // 编辑时传入的商品 id
-const state = reactive({
+interface GoodForm {
+  goodsName: string;
+  goodsIntro: string;
+  originalPrice: string | number;
+  sellingPrice: string | number;
+  stockNum: string | number;
+  goodsSellStatus: string;
+  goodsCoverImg: string;
+  tag: string;
+}
+
+interface State {
+  uploadImgServer: string;
+  token: string;
+  id: string | number;
+  defaultCate: string;
+  goodForm: GoodForm;
+  rules: Record<string, any[]>;
+  categoryId: string | number;
+  category: {
+    lazy: boolean;
+    lazyLoad: (node: any, resolve: any) => void;
+  };
+}
+
+const { proxy } = getCurrentInstance();
+const editor = ref<HTMLElement | null>(null); // 富文本编辑器 ref
+const goodRef = ref<FormInstance | null>(null); // 表单 ref
+const route = useRoute();
+const router = useRouter();
+const { id } = route.query; // 编辑时传入的商品 id
+
+const state = reactive<State>({
   uploadImgServer, // 上传图片的接口地址，单图上传
   token: localGet('token') || '', // 存在本地的 token
-  id: id,
+  id: id as string | number,
   defaultCate: '', // 默认分类值
   goodForm: { // 商品表单内容
     goodsName: '',
@@ -103,8 +130,8 @@ const state = reactive({
   categoryId: '', // 分类 id
   category: { // 联动组件 props 属性
     lazy: true,
-    lazyLoad(node, resolve) { // 懒加载分类方法
-      const { level = 0, value } = node
+    lazyLoad(node: any, resolve: any) { // 懒加载分类方法
+      const { level = 0, value } = node;
       axios.get('/categories', {
         params: {
           pageNumber: 1,
@@ -112,54 +139,58 @@ const state = reactive({
           categoryLevel: level + 1,
           parentId: value || 0
         }
-      }).then(res => {
-        const list = res.list
-        const nodes = list.map(item => ({
+      }).then((res: any) => {
+        const list = res.list;
+        const nodes = list.map((item: any) => ({
           value: item.categoryId,
           label: item.categoryName,
           leaf: level > 1
-        }))
-        resolve(nodes)
-      })
+        }));
+        resolve(nodes);
+      });
     }
   }
-})
+});
 
-let instance // wangEditor 实例
+let instance: any; // wangEditor 实例
+
 onMounted(() => {
-  instance = new WangEditor(editor.value) // 初始化 wangEditor
-  instance.config.showLinkImg = false
-  instance.config.showLinkImgAlt = false
-  instance.config.showLinkImgHref = false
-  instance.config.uploadImgMaxSize = 2 * 1024 * 1024 // 最大上传大小 2M 
-  instance.config.uploadFileName = 'file' // 上传时，key 值自定义
-  instance.config.uploadImgHeaders = {
-    token: state.token // 添加 token，否则没有权限调用上传接口
-  }
-  // 图片返回格式不同，需要自定义返回格式
-  instance.config.uploadImgHooks = {
-    // 图片上传并返回了结果，想要自己把图片插入到编辑器中
-    // 例如服务器端返回的不是 { errno: 0, data: [...] } 这种格式，可使用 customInsert
-    customInsert: function (insertImgFn, result) {
-      console.log('result', result)
-      // result 即服务端返回的接口
-      // insertImgFn 可把图片插入到编辑器，传入图片 src ，执行函数即可
-      if (result.data && result.data.length) {
-        result.data.forEach(item => insertImgFn(item))
+  if (editor.value) {
+    instance = new WangEditor(editor.value); // 初始化 wangEditor
+    instance.config.showLinkImg = false;
+    instance.config.showLinkImgAlt = false;
+    instance.config.showLinkImgHref = false;
+    instance.config.uploadImgMaxSize = 2 * 1024 * 1024; // 最大上传大小 2M 
+    instance.config.uploadFileName = 'file'; // 上传时，key 值自定义
+    instance.config.uploadImgHeaders = {
+      token: state.token // 添加 token，否则没有权限调用上传接口
+    };
+    // 图片返回格式不同，需要自定义返回格式
+    instance.config.uploadImgHooks = {
+      // 图片上传并返回了结果，想要自己把图片插入到编辑器中
+      // 例如服务器端返回的不是 { errno: 0, data: [...] } 这种格式，可使用 customInsert
+      customInsert: function (insertImgFn: any, result: any) {
+        console.log('result', result);
+        // result 即服务端返回的接口
+        // insertImgFn 可把图片插入到编辑器，传入图片 src ，执行函数即可
+        if (result.data && result.data.length) {
+          result.data.forEach((item: any) => insertImgFn(item));
+        }
       }
-    }
+    };
+    instance.config.uploadImgServer = uploadImgsServer; // 上传接口地址配置
+    Object.assign(instance.config, {
+      onchange() {
+        console.log('change');
+      },
+    });
+    instance.create();
   }
-  instance.config.uploadImgServer = uploadImgsServer // 上传接口地址配置
-  Object.assign(instance.config, {
-    onchange() {
-      console.log('change')
-    },
-  })
-  instance.create()
+  
   if (id) {
     // 获取商品信息
-    axios.get(`/goods/${id}`).then(res => {
-      const { goods, firstCategory, secondCategory, thirdCategory } = res
+    axios.get(`/goods/${id}`).then((res: any) => {
+      const { goods, firstCategory, secondCategory, thirdCategory } = res;
       state.goodForm = {
         goodsName: goods.goodsName,
         goodsIntro: goods.goodsIntro,
@@ -167,35 +198,37 @@ onMounted(() => {
         sellingPrice: goods.sellingPrice,
         stockNum: goods.stockNum,
         goodsSellStatus: String(goods.goodsSellStatus),
-        goodsCoverImg: proxy.$filters.prefix(goods.goodsCoverImg),
+        goodsCoverImg: proxy?.$filters.prefix(goods.goodsCoverImg),
         tag: goods.tag
-      }
-      state.categoryId = goods.goodsCategoryId
-      state.defaultCate = `${firstCategory.categoryName}/${secondCategory.categoryName}/${thirdCategory.categoryName}`
+      };
+      state.categoryId = goods.goodsCategoryId;
+      state.defaultCate = `${firstCategory.categoryName}/${secondCategory.categoryName}/${thirdCategory.categoryName}`;
       if (instance) {
         // 初始化商品详情 html
-        instance.txt.html(goods.goodsDetailContent)
+        instance.txt.html(goods.goodsDetailContent);
       }
-    })
+    });
   }
-})
+});
 
 onBeforeUnmount(() => {
   // 组件销毁之前，销毁 wangEditor 实例
-  instance.destroy()
-  instance = null
-})
+  if (instance) {
+    instance.destroy();
+    instance = null;
+  }
+});
 
 // 添加商品方法
-const submitAdd = () => {
-  goodRef.value.validate((vaild) => {
-    if (vaild) {
+const submitAdd = (): void => {
+  goodRef.value?.validate((valid: boolean) => {
+    if (valid) {
       // 默认新增用 post 方法
-      let httpOption = axios.post
+      let httpOption = axios.post;
       let params = {
         goodsCategoryId: state.categoryId,
         goodsCoverImg: state.goodForm.goodsCoverImg,
-        goodsDetailContent: instance.txt.html(),
+        goodsDetailContent: instance?.txt.html(),
         goodsIntro: state.goodForm.goodsIntro,
         goodsName: state.goodForm.goodsName,
         goodsSellStatus: state.goodForm.goodsSellStatus,
@@ -203,37 +236,40 @@ const submitAdd = () => {
         sellingPrice: state.goodForm.sellingPrice,
         stockNum: state.goodForm.stockNum,
         tag: state.goodForm.tag
-      }
-      console.log('params', params)
+      };
+      console.log('params', params);
       if (id) {
-        params.goodsId = id
+        params.goodsId = id;
         // 修改商品使用 put 方法
-        httpOption = axios.put
+        httpOption = axios.put;
       }
       httpOption('/goods', params).then(() => {
-        ElMessage.success(id ? '修改成功' : '添加成功')
-        router.push({ path: '/good' })
-      })
+        ElMessage.success(id ? '修改成功' : '添加成功');
+        router.push({ path: '/good' });
+      });
     }
-  })
-}
+  });
+};
 
 // 上传之前，判断一下文件格式
-const handleBeforeUpload = (file) => {
-  const sufix = file.name.split('.')[1] || ''
+const handleBeforeUpload = (file: File): boolean => {
+  const sufix = file.name.split('.')[1] || '';
   if (!['jpg', 'jpeg', 'png'].includes(sufix)) {
-    ElMessage.error('请上传 jpg、jpeg、png 格式的图片')
-    return false
+    ElMessage.error('请上传 jpg、jpeg、png 格式的图片');
+    return false;
   }
-}
+  return true;
+};
+
 // 图片上传成功后的回调
-const handleUrlSuccess = (val) => {
-  state.goodForm.goodsCoverImg = val.data || ''
-}
+const handleUrlSuccess = (val: any): void => {
+  state.goodForm.goodsCoverImg = val.data || '';
+};
+
 // 联动变化后的回调
-const handleChangeCate = (val) => {
-  state.categoryId = val[2] || 0
-}
+const handleChangeCate = (val: any[]): void => {
+  state.categoryId = val[2] || 0;
+};
 
 </script>
 
