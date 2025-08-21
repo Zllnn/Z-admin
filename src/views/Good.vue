@@ -167,18 +167,18 @@ const handleAdd = () => {
 }
 
 // 编辑商品，带 id 跳转 /add 路径
-const handleEdit = (id) => {
+const handleEdit = (id:number) => {
   router.push({ path: '/add', query: { id } })
 }
 
 // 翻页方法
-const changePage = (val) => {
+const changePage = (val:number) => {
   state.currentPage = val
   getGoodList()
 }
 
 // 上下架方法，只修改上下架状态
-const handleStatus = (id, status) => {
+const handleStatus = (id:number, status:number) => {
   // axios.put(`/goods/status/${status}`, {
   //   ids: id ? [id] : []
   // }).then(() => {

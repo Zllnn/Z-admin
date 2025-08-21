@@ -25,7 +25,7 @@
       </div>
     </template>
     <el-table
-      :load="state.loading"
+      v-loading="state.loading"
       :data="state.tableData"
       tooltip-effect="dark"
       style="width: 100%"
@@ -122,10 +122,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { HomeFilled, Delete } from '@element-plus/icons-vue'
-import axios from '@/utils/axios'
+import { log } from 'console';
+// import axios from '@/utils/axios'
 
 interface OrderData {
   createTime: string;
@@ -150,7 +151,7 @@ interface Option {
 interface State {
   loading: boolean;
   tableData: OrderData[];
-  multipleSelection: any[];
+  multipleSelection: OrderData[];
   total: number;
   currentPage: number;
   pageSize: number;
@@ -220,7 +221,7 @@ onMounted(() => {
 })
 // 获取列表方法, 当每次输入的订单号改变的时候就会进行请求然后刷新列表
 const getOrderList = () => {
-  state.loading = true
+  // state.loading = true  
   // axios.get('/orders', {
   //   params: {
   //     pageNumber: state.currentPage,
@@ -237,25 +238,35 @@ const getOrderList = () => {
 }
 
 // 触发过滤项方法
-const handleOption = () => {
+const handleOption = (): void => {
   state.currentPage = 1
   getOrderList()
 }
 
 // checkbox 选择项
-const handleSelectionChange = (val) => {
+const handleSelectionChange = (val: OrderData[]): void => {
   state.multipleSelection = val
 }
 
 // 翻页方法
-const changePage = (val) => {
+const changePage = (val: number): void => {
   state.currentPage = val
   getOrderList()
 }
 
+const updateOrderStatusByIds = (ids: number[], status: number): void => {
+  if (!ids.length) return
+  const idSet = new Set(ids)
+  for (const item of state.tableData) {
+    if (idSet.has(item.orderId)) {
+      item.orderStatus = status
+    }
+  }
+}
+
 // 配货方法
-const handleConfig = (id) => {
-  let params
+const handleConfig = (id?: number): void => {
+  let params: number[]
   // 当个配置
   if (id) {
     params = [id]
@@ -266,8 +277,10 @@ const handleConfig = (id) => {
       return
     }
     // 多选配置
-    params = state.multipleSelection.map(i => i.orderId)
+    params = state.multipleSelection.map((i: OrderData) => i.orderId)
   }
+  updateOrderStatusByIds(params, 2)
+  ElMessage.success('配货成功')
   // axios.put('/orders/checkDone', {
   //   ids: params
   // }).then(() => {
@@ -277,8 +290,8 @@ const handleConfig = (id) => {
 }
 
 // 出库方法
-const handleSend = (id) => {
-  let params
+const handleSend = (id?: number): void => {
+  let params: number[]
   if (id) {
     params = [id]
   } else {
@@ -286,8 +299,10 @@ const handleSend = (id) => {
       ElMessage.error('请选择项')
       return
     }
-    params = state.multipleSelection.map(i => i.orderId)
+    params = state.multipleSelection.map((i: OrderData) => i.orderId)
   }
+  updateOrderStatusByIds(params, 3)
+  ElMessage.success('出库成功')
   // axios.put('/orders/checkOut', {
   //   ids: params
   // }).then(() => {
@@ -297,8 +312,8 @@ const handleSend = (id) => {
 }
 
 // 关闭订单方法
-const handleClose = (id) => {
-  let params
+const handleClose = (id?: number): void => {
+  let params: number[]
   if (id) {
     params = [id]
   } else {
@@ -306,8 +321,10 @@ const handleClose = (id) => {
       ElMessage.error('请选择项')
       return
     }
-    params = state.multipleSelection.map(i => i.orderId)
+    params = state.multipleSelection.map((i: OrderData) => i.orderId)
   }
+  updateOrderStatusByIds(params, -1)
+  ElMessage.success('关闭成功')
   // axios.put('/orders/close', {
   //   ids: params
   // }).then(() => {

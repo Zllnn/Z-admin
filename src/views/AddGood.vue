@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, toRefs, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { reactive, ref, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 import WangEditor from 'wangeditor'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
@@ -144,7 +144,7 @@ const state = reactive<State>({
         const nodes = list.map((item: any) => ({
           value: item.categoryId,
           label: item.categoryName,
-          leaf: level > 1
+          leaf: level > 1  //从零开始，只有三层,>1则为叶子节点 
         }));
         resolve(nodes);
       });
@@ -189,25 +189,25 @@ onMounted(() => {
   
   if (id) {
     // 获取商品信息
-    axios.get(`/goods/${id}`).then((res: any) => {
-      const { goods, firstCategory, secondCategory, thirdCategory } = res;
-      state.goodForm = {
-        goodsName: goods.goodsName,
-        goodsIntro: goods.goodsIntro,
-        originalPrice: goods.originalPrice,
-        sellingPrice: goods.sellingPrice,
-        stockNum: goods.stockNum,
-        goodsSellStatus: String(goods.goodsSellStatus),
-        goodsCoverImg: proxy?.$filters.prefix(goods.goodsCoverImg),
-        tag: goods.tag
-      };
-      state.categoryId = goods.goodsCategoryId;
-      state.defaultCate = `${firstCategory.categoryName}/${secondCategory.categoryName}/${thirdCategory.categoryName}`;
-      if (instance) {
-        // 初始化商品详情 html
-        instance.txt.html(goods.goodsDetailContent);
-      }
-    });
+    // axios.get(`/goods/${id}`).then((res: any) => {
+    //   const { goods, firstCategory, secondCategory, thirdCategory } = res;
+    //   state.goodForm = {
+    //     goodsName: goods.goodsName,
+    //     goodsIntro: goods.goodsIntro,
+    //     originalPrice: goods.originalPrice,
+    //     sellingPrice: goods.sellingPrice,
+    //     stockNum: goods.stockNum,
+    //     goodsSellStatus: String(goods.goodsSellStatus),
+    //     goodsCoverImg: proxy?.$filters.prefix(goods.goodsCoverImg),
+    //     tag: goods.tag
+    //   };
+    //   state.categoryId = goods.goodsCategoryId;
+    //   state.defaultCate = `${firstCategory.categoryName}/${secondCategory.categoryName}/${thirdCategory.categoryName}`;
+    //   if (instance) {
+    //     // 初始化商品详情 html
+    //     instance.txt.html(goods.goodsDetailContent);
+    //   }
+    // });
   }
 });
 

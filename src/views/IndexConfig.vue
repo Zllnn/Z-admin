@@ -122,10 +122,11 @@ const configTypeMap: Record<string, number> = {
   recommend: 5, // 推荐
 }
 
+const addGood = ref<InstanceType<typeof DialogAddGood> | null>(null) //获取弹窗实例
 const router = useRouter()
 const route = useRoute()
 const multipleTable = ref(null)
-const state = reactive({
+const state = reactive<State>({
   loading: false,
   tableData: [], // 数据列表            想清楚到底有多少个元素
   total: 0, // 总条数
@@ -171,7 +172,7 @@ const getIndexConfig = () => {
 }
 
 //每次页面改变就请求数据
-const changePage = (val) => {
+const changePage = (val:number) => {
   state.currentPage = val
   getIndexConfig()
 }
@@ -187,13 +188,13 @@ const handleAdd = () => {
 }
 
 // 修改商品
-const handleEdit = (id) => {
+const handleEdit = (id:number) => {
   state.type = 'edit'
   addGood.value.open(id)
 }
 
 // 选择项
-const handleSelectionChange = (val) => {
+const handleSelectionChange = (val: any[]) => {
   state.multipleSelection = val
 }
 
@@ -212,7 +213,7 @@ const handleDelete = () => {
 }
 
 // 单个删除
-const handleDeleteOne = (id) => {
+const handleDeleteOne = (id:number) => {
   // axios.post('/indexConfigs/delete', {
   //   ids: [id]
   // }).then(() => {

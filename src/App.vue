@@ -5,7 +5,7 @@
         <!-- 系统名称+logo -->
         <div class="head">
           <div>
-            <img src="" alt="logo">
+            <img src="@/assets/login_back_.jpg" alt="logo">
             <span>Z-admin</span>
           </div>
         </div>
@@ -17,7 +17,7 @@
           <!-- 第一层 -->
           <el-sub-menu index="1">
             <template #title>
-              <span>Dashboard</span>
+              <span>Z-admin</span>
             </template>
             <!-- 第二层 -->
             <el-menu-item-group>
@@ -53,18 +53,28 @@
               <span>模块管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/category"><el-icon><Menu /></el-icon>分类管理</el-menu-item>
-              <el-menu-item index="/good"><el-icon><Goods /></el-icon>商品管理</el-menu-item>
-              <el-menu-item index="/order"><el-icon><List /></el-icon>订单管理</el-menu-item>
-              <el-menu-item index="/guest"><el-icon><User /></el-icon>会员管理</el-menu-item>
+              <el-menu-item index="/category"><el-icon>
+                  <Menu />
+                </el-icon>分类管理</el-menu-item>
+              <el-menu-item index="/good"><el-icon>
+                  <Goods />
+                </el-icon>商品管理</el-menu-item>
+              <el-menu-item index="/order"><el-icon>
+                  <List />
+                </el-icon>订单管理</el-menu-item>
+              <el-menu-item index="/guest"><el-icon>
+                  <User />
+                </el-icon>会员管理</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="4">
             <template #title>
-                <span>系统管理</span>
+              <span>系统管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/account"><el-icon><Lock /></el-icon>修改密码</el-menu-item>
+              <el-menu-item index="/account"><el-icon>
+                  <Lock />
+                </el-icon>修改密码</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>
@@ -85,19 +95,18 @@
   </div>
 </template>
 
-<script setup>
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
-import { useRouter } from 'vue-router';
+<script setup lang="ts">
 import { reactive } from 'vue';
-import { localGet, pathMap } from '@/utils';
 
-//不需要菜单的路径数组
-const noMenu = ['/login']
-const router = useRouter()
-const state = reactive({
+interface State {
+  showMenu: boolean;
+  defaultOpen: string[];
+  currentPath: string;
+}
+
+const state = reactive<State>({
   showMenu: true, //是否需要显示菜单栏
-  defaultOpen:['1','2','3','4'],
+  defaultOpen:['1','2','3'],
   currentPath: '/'
 })
 

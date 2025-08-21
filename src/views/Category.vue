@@ -101,6 +101,8 @@ interface State {
   type: 'add' | 'edit';
   multipleSelection: any[];
   total: number;
+  level:number;
+  parent_id:number;
 }
 
 const addCate = ref<InstanceType<typeof DialogAddCategory> | null>(null); //获取增加的弹窗组件
@@ -133,13 +135,13 @@ const state = reactive<State>({
 // 添加分类
 const handleAdd = () => {
   state.type = 'add' // 传入弹窗组件用于弹窗 title 判断
-  addCate.value.open()
+  addCate.value?.open()
 }
 
 // 修改分类
-const handleEdit = (id) => {
+const handleEdit = (id:number) => {
   state.type = 'edit' // 传入弹窗组件用于弹窗 title 判断
-  addCate.value.open(id)
+  addCate.value?.open(id)
 }
 
 // 批量删除
@@ -159,7 +161,7 @@ const handleDelete = () => {
 }
 
 // 单个删除
-const handleDeleteOne = (id) => {
+const handleDeleteOne = (id:number) => {
   // axios.delete('/categories', {
   //   data: {
   //     ids: [id]
@@ -171,7 +173,7 @@ const handleDeleteOne = (id) => {
 }
 
 // 选择项
-const handleSelectionChange = (val) => {
+const handleSelectionChange = (val:any[]) => {
   // 多选 checkbox
   state.multipleSelection = val
 }
@@ -202,7 +204,7 @@ const getCategory = () => {
 }
 
 //跳转到下一级分类
-const handleNext = (item) => {
+const handleNext = (item: CategoryData) => {
   const levelNumber = item.categoryLevel + 1
   if (levelNumber == 4) {
     ElMessage.error('没有下一级')
@@ -217,7 +219,7 @@ const handleNext = (item) => {
   })
 }
 
-const changePage = (val) => {
+const changePage = (val:number) => {
   state.currentPage = val
   getCategory()
 }

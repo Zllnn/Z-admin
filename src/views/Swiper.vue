@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import axios from '@/utils/axios';
+// import axios from '@/utils/axios';
 import { onMounted, reactive, ref } from 'vue';
 import DialogAddSwiper from '@/components/DialogAddSwiper.vue';
 import { ElMessage } from 'element-plus';
