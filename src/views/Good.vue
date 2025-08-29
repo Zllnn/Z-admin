@@ -133,6 +133,22 @@ const state = reactive<State>({
       stockNum: 5, // 商品库存
       tag: "6", // 标签
       updateTime: "2021-04-18 10:51:53", // 更新时间
+    },
+    {
+      createTime: "2021-04-17 16:42:43", // 创建时间
+      goodsCarousel: "/admin/dist/img/no-img.png", // 商品轮播图
+      goodsCategoryId: 182, // 商品分类 id
+      goodsCoverImg: "http://backend-api-02.newbee.ltd/upload/20210417_1642416.jpg", // 商品主图
+      goodsDetailContent: null, // 详情内容
+      goodsId: 11000, // 商品 id
+      goodsIntro: "2",
+      goodsName: "1", // 商品名称
+      goodsSellStatus: 1, // 商品上下架状态，0：下架，1：上架
+      originalPrice: 3, // 商品原价
+      sellingPrice: 4, // 商品售价
+      stockNum: 5, // 商品库存
+      tag: "6", // 标签
+      updateTime: "2021-04-18 10:51:53", // 更新时间
     }
   ], // 数据列表
   total: 0, // 总条数

@@ -9,11 +9,14 @@
     <Table
       action='/users'
       ref="table"
+      :tableData="tableData"
     >
       <template #column>
         <el-table-column
           type="selection"
-          width="55">
+          width="55"
+          prop="userId"
+          >
         </el-table-column>
         <el-table-column
           prop="nickName"
@@ -61,6 +64,34 @@ import { Plus, Delete } from '@element-plus/icons-vue'
 import axios from '@/utils/axios'
 
 const table = ref<InstanceType<typeof Table> | null>(null); // 绑定 Table  的 ref 属性
+
+interface TableData {
+  userId: number;
+  nickName: string;
+  loginName: string;
+  lockedFlag: number;
+  isDeleted: number;
+  createTime: string;
+}
+
+const tableData = ref<TableData[]>([
+  {
+    userId: 1,
+    nickName: '张三',
+    loginName: 'zhangsan',
+    lockedFlag: 0,
+    isDeleted: 0,
+    createTime: '2021-04-07 17:37:02'
+  },
+  {
+    userId: 2,
+    nickName: '李四',
+    loginName: 'lisi',
+    lockedFlag: 0,
+    isDeleted: 0,
+    createTime: '2021-04-07 17:37:02'
+  }
+])
 
 // 解禁方法
 const handleSolve = (): void => {

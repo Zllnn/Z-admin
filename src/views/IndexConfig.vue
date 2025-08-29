@@ -95,6 +95,9 @@ import { ElMessage } from 'element-plus'
 import DialogAddGood from '@/components/DialogAddGood.vue'
 import { Plus, Delete } from '@element-plus/icons-vue'
 
+
+//通过路由的name来判断是哪一个界面，实现多界面的复用
+
 interface ConfigData {
   configId: number;
   configName: string;
@@ -115,6 +118,7 @@ interface State {
   total: number;
 }
 
+
 // 首页配置类型参数
 const configTypeMap: Record<string, number> = {
   hot: 3, // 热销
@@ -128,7 +132,24 @@ const route = useRoute()
 const multipleTable = ref(null)
 const state = reactive<State>({
   loading: false,
-  tableData: [], // 数据列表            想清楚到底有多少个元素
+  tableData: [
+    {
+      configId: 1,
+      configName: '商品1',
+      redirectUrl: 'https://www.baidu.com',
+      configRank: 1,
+      goodsId: 1,
+      createTime: '2025-01-01',
+    },
+    {
+      configId: 1,
+      configName: '商品1',
+      redirectUrl: 'https://www.baidu.com',
+      configRank: 1,
+      goodsId: 1,
+      createTime: '2025-01-01',
+    }
+  ], // 数据列表            想清楚到底有多少个元素
   total: 0, // 总条数
   currentPage: 1, // 当前页
   pageSize: 10, // 分页大小
@@ -139,7 +160,7 @@ const state = reactive<State>({
 
 
 //监听路由变化
-const unWatch = router.beforeEach((to) => {
+const unWatch = router.beforeEach((to:any) => {
   if (['hot', 'new', 'recommend'].includes(to.name)) {
     // 通过 to.name 去匹配不同路径下，configType 参数也随之变化。
     state.configType = configTypeMap[to.name]

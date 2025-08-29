@@ -96,11 +96,19 @@ const { id } = route.query;
 
 const state = reactive<State>({
   data: {
-    orderStatusString: '',
-    createTime: '',
-    orderNo: ''
+    orderStatusString: '待支付',
+    createTime: '2021-04-07 17:37:02',
+    orderNo: '16177882220776231'
   },
-  tableData: []
+  tableData: [
+    {
+      goodsId: 1,
+      goodsCoverImg: 'https://picsum.photos/800/400?random=1',
+      goodsName: '商品1',
+      goodsCount: 1,
+      sellingPrice: 100
+    }
+  ]
 });
 
 onMounted(() => {

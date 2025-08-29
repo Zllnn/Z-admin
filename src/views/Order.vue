@@ -125,7 +125,7 @@
 import { onMounted, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { HomeFilled, Delete } from '@element-plus/icons-vue'
-import { log } from 'console';
+// import { log } from 'console';
 // import axios from '@/utils/axios'
 
 interface OrderData {
@@ -163,6 +163,20 @@ interface State {
 const state = reactive<State>({
   loading: false,
   tableData: [
+    {
+      createTime: "2021-04-07 17:37:02", // 订单创建时间
+      extraInfo: "",
+      isDeleted: 0,
+      orderId: 3056, // 订单 id
+      orderNo: "16177882220776231", // 订单编号
+      orderStatus: -3, // 订单状态，空字符串：全部，0：待支付，1：已支付，2：配货完成，3：出库成功，4：交易成功，-1：手动关闭，-2：超时关闭，-3：商家关闭
+      payStatus: 1, // 支付状态，
+      payTime: "2021-04-07T09:37:05.000+0000", // 支付时间
+      payType: 2, // 支付类型 1：微信，2：支付宝
+      totalPrice: 8598, // 总金额
+      updateTime: "2021-04-07 20:46:40", // 更新时间
+      userId: 4555, // 购买用户id
+    },
     {
       createTime: "2021-04-07 17:37:02", // 订单创建时间
       extraInfo: "",

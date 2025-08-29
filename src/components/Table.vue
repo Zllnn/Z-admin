@@ -26,6 +26,7 @@ import axios from '@/utils/axios'
 
 interface Props {
   action: string;
+  tableData?: any[]; // 添加可选的 tableData 属性
 }
 
 interface State {
@@ -41,7 +42,7 @@ const props = defineProps<Props>();
 
 const state = reactive<State>({
   loading: false,
-  tableData: [], // 数据列表
+  tableData: props.tableData || [], // 使用父组件传递的数据，如果没有则使用空数组
   total: 0, // 总条数
   currentPage: 1, // 当前页
   pageSize: 10, // 分页大小
@@ -50,7 +51,10 @@ const state = reactive<State>({
 
 // 初始化钩子函数
 onMounted(() => {
-  getList();
+  // 只有当没有父组件传递的数据时才调用接口
+  if (!props.tableData || props.tableData.length === 0) {
+    getList();
+  }
 });
 
 // 获取列表方法
