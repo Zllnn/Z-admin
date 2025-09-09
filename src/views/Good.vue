@@ -31,7 +31,7 @@
         width="150px"
       >
         <template #default="scope">
-          <img style="width: 100px; height: 100px;" :key="scope.row.goodsId" :src="$filters.prefix(scope.row.goodsCoverImg)" alt="商品主图">
+          <img style="width: 100px; height: 100px;" :key="scope.row.goodsId" :src="scope.row.goodsCoverImg" alt="商品主图">
         </template>
       </el-table-column>
       <el-table-column
@@ -122,7 +122,7 @@ const state = reactive<State>({
       createTime: "2021-04-17 16:42:43", // 创建时间
       goodsCarousel: "/admin/dist/img/no-img.png", // 商品轮播图
       goodsCategoryId: 182, // 商品分类 id
-      goodsCoverImg: "http://backend-api-02.newbee.ltd/upload/20210417_1642416.jpg", // 商品主图
+      goodsCoverImg: "https://picsum.photos/800/400?random=1", // 商品主图
       goodsDetailContent: null, // 详情内容
       goodsId: 11000, // 商品 id
       goodsIntro: "2",
@@ -138,7 +138,7 @@ const state = reactive<State>({
       createTime: "2021-04-17 16:42:43", // 创建时间
       goodsCarousel: "/admin/dist/img/no-img.png", // 商品轮播图
       goodsCategoryId: 182, // 商品分类 id
-      goodsCoverImg: "http://backend-api-02.newbee.ltd/upload/20210417_1642416.jpg", // 商品主图
+      goodsCoverImg: "https://picsum.photos/800/400?random=1", // 商品主图
       goodsDetailContent: null, // 详情内容
       goodsId: 11000, // 商品 id
       goodsIntro: "2",
@@ -163,18 +163,17 @@ onMounted(() => {
 // 获取轮播图列表
 const getGoodList = () => {
   state.loading = true
-  // axios.get('/goods/list', {
-  //   params: {
-  //     pageNumber: state.currentPage, // 当前页
-  //     pageSize: state.pageSize, // 每页数量
-  //   }
-  // }).then(res => {
-  //   state.tableData = res.list // 列表数据
-  //   state.total = res.totalCount // 数据总条数
-  //   state.currentPage = res.currPage // 当前页
-  //   state.loading = false // 数据成功返回后，将列表 loading 清除
-  //   goTop && goTop() // 数据获取成功后，回到顶部
-  // })
+  axios.get('/goods/list', {
+    params: {
+      pageNumber: state.currentPage, // 当前页
+      pageSize: state.pageSize, // 每页数量
+    }
+  }).then((res:any) => {
+    state.tableData = res.list // 列表数据
+    state.total = res.totalCount // 数据总条数
+    state.currentPage = res.currPage // 当前页
+    state.loading = false // 数据成功返回后，将列表 loading 清除
+  })
 }
 
 // 添加商品，跳转到 /add 路径下

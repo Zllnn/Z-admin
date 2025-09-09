@@ -1,51 +1,53 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
+import { resolve } from 'path'
+import { viteMockServe } from 'vite-plugin-mock'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import ElementPlus from 'unplugin-element-plus/vite' // 不加这个配置，ElMessage出不来
+import ElementPlus from 'unplugin-element-plus/vite'
 
-//引入按需引入elementPlus的插件
-// import vitePluginImport from 'vite-plugin-babel-import'
-
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    // 按需引入，主题色的配置，需要加上 importStyle: 'sass'
+    viteMockServe({
+      mockPath: 'mock',
+      enable: true
+    }),
+    // 按需引入Element Plus组件
     Components({
       resolvers: [ElementPlusResolver({
         importStyle: 'sass'
       })],
     }),
     // 用于内部方法调用，样式缺失的现象，如 ElMessage 等
-    // 使用源码样式，配合 SCSS 变量覆盖主题
     ElementPlus({
       useSource: true
     })
   ],
   resolve: {
     alias: {
-      '~': path.resolve(__dirname,'./'),
-      '@': path.resolve(__dirname,'src')
-    }
-  },
-  base: './',
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://backend-api-02.newbee.ltd/manage-api/v1', // 凡是遇到 /api 路径的请求，都映射到 target 属性
-        changeOrigin: true,
-        rewrite: (path: string) => path.replace(/^\/api/, '') // 重写 api 为 空，就是去掉它
-      }
-    }
+      '@': resolve(__dirname, 'src'),
+    },
   },
   css: {
     preprocessorOptions: {
-      // 覆盖掉element-plus包中的主题变量文件
       scss: {
-        additionalData: `@use "@/styles/element/index.scss" as *;`,
-      },
-    },
+        // 移除additionalData，避免与Element Plus的@use规则冲突
+        // additionalData: `@import "@/styles/variables.scss";`
+      }
+    }
   },
+  server: {
+    port: 3000,
+    open: true,
+    cors: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  }
 })

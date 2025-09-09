@@ -166,7 +166,7 @@ const handleAdd = () => {
 }
 
 //编辑轮播图
-const handleEdit = (id) => {
+const handleEdit = (id:number) => {
   state.type = 'edit'
   addSwiper.value.open(id)
 }

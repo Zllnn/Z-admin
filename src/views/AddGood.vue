@@ -140,7 +140,7 @@ const state = reactive<State>({
           parentId: value || 0
         }
       }).then((res: any) => {
-        const list = res.list;
+        const list = res;
         const nodes = list.map((item: any) => ({
           value: item.categoryId,
           label: item.categoryName,

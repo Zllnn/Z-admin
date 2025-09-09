@@ -75,8 +75,9 @@ import { localSet } from '../utils';
 import { ElMessage } from 'element-plus';
 import { User, Lock } from '@element-plus/icons-vue'
 import type { FormInstance, FormItemRule } from 'element-plus';
-// 安装 js-md5，密码需要 md5 加密，服务端是解密 md5 的形式
-import md5 from 'js-md5'
+import { useRouter } from 'vue-router';
+
+// 移除MD5加密，使用明文密码
 
 interface FormModel {
   username: string;
@@ -93,6 +94,7 @@ interface State {
 
 //el-from组件接收一个ref属性
 const loginForm = ref<FormInstance | null>(null);
+const router = useRouter();
 
 //表单校验（注册时）
 const validatePass = (rule: any, value: string, callback: any): void => {
@@ -141,13 +143,13 @@ const login = async (): Promise<void> => {
       // /adminUser/login 登录接口路径
       axios.post('/adminUser/login', {
         username: state.fromModel.username || '',
-        password: md5(state.fromModel.password), //密码进行md5加密,后端通过md5解密
+        password: state.fromModel.password, //使用明文密码
       }).then((res: any) => {
         ElMessage.success('登录成功');
         //将得到的token存入localStorage
         localSet('token', res);
-        //此处登录完成之后需要刷新页面,因为需要将token放入请求头中
-        window.location.href = '/';
+        //使用Vue Router导航到首页，避免路由冲突
+        router.push('/index');
       });
     } else {
       console.log('error submit!!');
@@ -164,7 +166,7 @@ const Regist = async (): Promise<void> => {
       // /adminUser/regist 注册接口路径
       axios.post('/adminUser/regist', {
         username: state.fromModel.username || '',
-        password: md5(state.fromModel.password), //密码进行md5加密,后端通过md5解密
+        password: state.fromModel.password, //使用明文密码
       }).then((res: any) => {
         ElMessage.success('注册成功');
         state.isRegister = false;

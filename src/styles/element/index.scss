@@ -1,9 +1,18 @@
 // styles/element/index.scss
-/* just override what you need */
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $colors: (
-    "primary": (
-      "base": #1baeae,
-    ),
-  ),
-);
+/* Element Plus 主题变量覆盖 - 兼容版本 */
+
+// 使用CSS变量方式覆盖Element Plus主题，避免SCSS规则冲突
+html {
+  --el-color-primary: #1baeae !important;
+  --el-color-primary-light-3: #4dbdbd !important;
+  --el-color-primary-light-5: #7dcdcd !important;
+  --el-color-primary-light-7: #aedddd !important;
+  --el-color-primary-light-8: #c5e6e6 !important;
+  --el-color-primary-light-9: #dceeee !important;
+  --el-color-primary-dark-2: #158b8b !important;
+}
+
+// 导出变量供其他文件使用
+:export {
+  colorPrimary: #1baeae;
+}

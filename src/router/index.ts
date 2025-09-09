@@ -14,6 +14,15 @@ import Account from '@/views/Account.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/index',
     name: 'index',
     component: Index
   },
@@ -21,11 +30,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/add',
     name: 'add',
     component: AddGood
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: Login 
   },
   {
     path: '/swiper',

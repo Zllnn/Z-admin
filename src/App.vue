@@ -21,7 +21,7 @@
             </template>
             <!-- 第二层 -->
             <el-menu-item-group>
-              <el-menu-item index="/"><el-icon>
+              <el-menu-item index="/index"><el-icon>
                   <Reading />
                 </el-icon>系统介绍</el-menu-item>
               <el-menu-item index="/add"><el-icon>
@@ -97,6 +97,10 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { localGet } from '@/utils';
+import { pathMap } from '@/utils';
+
 
 interface State {
   showMenu: boolean;
@@ -104,29 +108,33 @@ interface State {
   currentPath: string;
 }
 
+const router = useRouter();
+
 const state = reactive<State>({
   showMenu: true, //是否需要显示菜单栏
   defaultOpen:['1','2','3'],
   currentPath: '/'
 })
 
+const noMenu = ['/login']
+
 //全局前置守卫
-// router.beforeEach((to,from,next) => {
-//   if(to.path == '/login') {
-    //如果去登录页面就放行
-  //   next()
-  // } else {
-    //如果不是登录页面，跳转至登录页面
-//     if(!localGet('token')){
-//       next({ path: '/login' })
-//     } else {
-//       next()
-//     }
-//   }
-//   state.showMenu = !noMenu.includes(to.path)
-//   state.currentPath = to.path
-//   document.title = pathMap[to.name]
-// })
+router.beforeEach((to,from,next) => {
+  if(to.path == '/login') {
+    // 如果去登录页面就放行
+    next()
+  } else {
+    // 如果不是登录页面，跳转至登录页面
+    if(!localGet('token')){
+      next({ path: '/login' })
+    } else {
+      next()
+    }
+  }
+  state.showMenu = !noMenu.includes(to.path)
+  state.currentPath = to.path
+  document.title = pathMap[to.name as keyof typeof pathMap] || ''
+})
 </script>
 
 <style lang="scss" scoped>
