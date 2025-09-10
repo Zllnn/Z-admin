@@ -15,7 +15,7 @@
   <el-form-item label="图片" prop="url">
     <el-upload
     class="avatar-uploader"
-    :action="state.uploadImagServer"
+    :action="state.uploadImgServer"
     accept="jpg,jpeg,png"
     :headers="{
       token: state.token
@@ -148,7 +148,7 @@ const close = (): void => {
 
 //提交表单方法
 const submitForm = (): void => {
-  console.log(111);
+  // console.log(111);
   formRef.value?.validate((valid: boolean) => {
     //valid为是否通过表单验证，Boolean值
     if(valid) {

@@ -52,8 +52,7 @@ interface State {
 //获取路由实例
 const router = useRouter();
 
-//声明路由和title对应的键值对
-// const pathMap = pathMap
+
 const state = reactive<State>({
   name:'首页',
   userInfo: {
@@ -87,7 +86,7 @@ const logout = (): void => {
   });
 };
 
-//路由前置守卫，用于监听路由变化
+//路由后置守卫，用于监听路由变化
 router.afterEach((to: RouteLocationNormalized) => {
   console.log(to);
   const {id} = to.query;

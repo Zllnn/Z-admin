@@ -27,7 +27,7 @@
     },
 
     /* Vue specific */
-    "types": ["vite/client", "element-plus/global"],
+    "types": ["vite/client", "element-plus/global", "vue/macros-global"],
     "allowJs": true,
     "checkJs": false
   },

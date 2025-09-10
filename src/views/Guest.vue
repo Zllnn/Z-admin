@@ -2,8 +2,8 @@
   <el-card class="guest-container views">
     <template #header>
       <div class="header">
-        <el-button type="primary" size="small" :icon="Plus" @click="handleSolve">解除禁用</el-button>
-        <el-button type="danger" size="small" :icon="Delete" @click="handleForbid">禁用账户</el-button>
+        <el-button type="primary"  :icon="Plus" @click="handleSolve">解除禁用</el-button>
+        <el-button type="danger"  :icon="Delete" @click="handleForbid">禁用账户</el-button>
       </div>
     </template>
     <Table

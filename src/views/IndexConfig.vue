@@ -2,7 +2,7 @@
     <el-card class="index-container views">
       <template #header>
       <div class="header">
-        <el-button type="primary" size="small" :icon="Plus" @click="handleAdd">增加</el-button>
+        <el-button type="primary"  :icon="Plus" @click="handleAdd">增加</el-button>
         <el-popconfirm
           title="确定删除吗？"
           confirmButtonText='确定'
@@ -10,7 +10,7 @@
           @confirm="handleDelete"
         >
           <template #reference>
-            <el-button type="danger" size="small" :icon="Delete">批量删除</el-button>
+            <el-button type="danger"  :icon="Delete">批量删除</el-button>
          </template>
         </el-popconfirm>
       </div>
@@ -159,7 +159,7 @@ const state = reactive<State>({
 })
 
 
-//监听路由变化
+//监听路由变化,路由前置守卫
 const unWatch = router.beforeEach((to:any) => {
   if (['hot', 'new', 'recommend'].includes(to.name)) {
     // 通过 to.name 去匹配不同路径下，configType 参数也随之变化。
@@ -205,13 +205,13 @@ unWatch()
 // 添加商品
 const handleAdd = () => {
   state.type = 'add'
-  addGood.value.open()
+  addGood.value?.open()
 }
 
 // 修改商品
 const handleEdit = (id:number) => {
   state.type = 'edit'
-  addGood.value.open(id)
+  addGood.value?.open(id)
 }
 
 // 选择项

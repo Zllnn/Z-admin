@@ -3,6 +3,7 @@
     <template #header>
       <div class="header">
         <el-button type="primary" :icon="Plus" @click="handleAdd">增加</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleEdit(state.multipleSelection[0].carouselId)">编辑</el-button>
         <el-popconfirm
           title="确定删除吗？"
           confirmButtonText='确定'
@@ -72,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-// import axios from '@/utils/axios';
+import axios from '@/utils/axios';
 import { onMounted, reactive, ref } from 'vue';
 import DialogAddSwiper from '@/components/DialogAddSwiper.vue';
 import { ElMessage } from 'element-plus';
@@ -162,34 +163,34 @@ const handleDelete = () => {
 //增加按钮
 const handleAdd = () => {
   state.type = 'add'
-  addSwiper.value.open()  //调用弹窗开启按钮
+  addSwiper.value?.open()  //调用弹窗开启按钮
 }
 
 //编辑轮播图
 const handleEdit = (id:number) => {
   state.type = 'edit'
-  addSwiper.value.open(id)
+  addSwiper.value?.open(id)
 }
 
 onMounted(() => {
-  // getCarousels()
+  getCarousels()
 })
-//获取轮播图列表 ,后续写接口的时候考虑不用params，直接使用body传递
-// const getCarousels = () => {
-//   state.loading = true
-//   axios.get('/carousels', {
-//     params: {
-//       pageNumber: state.currentPage,
-//       pageSize: state.pageSize
-//     }
-//   }).then(res => {
-    // state.tableData = res.list
-    // state.total = res.totalCount
-    // state.currentPage  = res.currPage
-    // state.loading = false
-//   })
-// }
-const changePage = (val) => {
+// 获取轮播图列表 ,后续写接口的时候考虑不用params，直接使用body传递
+const getCarousels = () => {
+  state.loading = true
+  axios.get('/carousels', {
+    params: {
+      pageNumber: state.currentPage,
+      pageSize: state.pageSize
+    }
+  }).then((res:any) => {
+    state.tableData = res
+    state.total = res.totalCount
+    state.currentPage  = res.currPage
+    state.loading = false
+  })
+}
+const changePage = (val:any) => {
   //当前页改变了就重新获取页面数据
   state.currentPage = val
   getCarousels()
