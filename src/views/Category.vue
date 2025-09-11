@@ -186,21 +186,21 @@ onMounted(() => {
 const getCategory = () => {
   const { level = 1, parent_id = 0 } = route.query
   state.loading = true
-  // axios.get('/categories', {
-  //   params: {
-  //     pageNumber: state.currentPage,
-  //     pageSize: state.pageSize,
-  //     categoryLevel: level,
-  //     parentId: parent_id
-  //   }
-  // }).then(res => {
-  //   state.tableData = res.list
-  //   state.total = res.totalCount
-  //   state.currentPage = res.currPage
-  //   state.loading = false
-  //   state.level = level
-  //   state.parentId = parent_id
-  // })
+  axios.get('/categories', {
+    params: {
+      pageNumber: state.currentPage,
+      pageSize: state.pageSize,
+      categoryLevel: level,
+      parentId: parent_id
+    }
+  }).then((res:any) => {
+    state.tableData = res
+    state.total = res.totalCount
+    state.currentPage = res.currPage
+    state.loading = false
+    state.level = level
+    state.parentId = parent_id
+  })
 }
 
 //跳转到下一级分类
@@ -224,7 +224,7 @@ const changePage = (val:number) => {
   getCategory()
 }
 
-const unwatch = router.afterEach((to) => {
+const unwatch = router.afterEach((to:any) => {
   // 每次路由变化的时候，都会触发监听时间，重新获取列表数据
   if (['category', 'level2', 'level3'].includes(to.name)) {
     getCategory()

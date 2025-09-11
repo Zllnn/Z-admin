@@ -19,21 +19,21 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(ElementPlus)
 
 // 全局方法,防止图片路径出错
-app.config.globalProperties.$filters = {
-  prefix(url: string): string {
-    if (url && url.startsWith('http')) {
-      // 当 url 以 http 开头时候，我们返回原路径
-      return url
-    } else {
-      // 否则，我们给路径添加 host，如下
-      url = ''
-      return url
-    }
-  },
-  orderMap(status: number): string {
-    return orderStatus[status] || '未知状态'
-  }
-}
+// app.config.globalProperties.$filters = {
+//   prefix(url: string): string {
+//     if (url && url.startsWith('http')) {
+//       // 当 url 以 http 开头时候，我们返回原路径
+//       return url
+//     } else {
+//       // 否则，我们给路径添加 host，如下
+//       url = ''
+//       return url
+//     }
+//   },
+//   orderMap(status: number): string {
+//     return orderStatus[status] || '未知状态'
+//   }
+// }
 
 //每次翻页之后将滚动条滑动到顶部
 app.config.globalProperties.goTop = function (): void {

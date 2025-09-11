@@ -101,36 +101,36 @@ const addSwiper = ref<InstanceType<typeof DialogAddSwiper> | null>(null);
 const state = reactive<State>({
   loading: true, //控制加载动画
   tableData: [
-    {
-      carouselUrl:'https://picsum.photos/800/400?random=1',
-      redirectUrl:'https://www.baidu.com/',
-      carouselRank:1,
-      createTime:'2025.1.15'
-    },
-    {
-      carouselUrl:'https://picsum.photos/800/400?random=2',
-      redirectUrl:'https://www.taobao.com/',
-      carouselRank:2,
-      createTime:'2025.1.16'
-    },
-    {
-      carouselUrl:'https://picsum.photos/800/400?random=3',
-      redirectUrl:'https://www.jd.com/',
-      carouselRank:3,
-      createTime:'2025.1.17'
-    },
-    {
-      carouselUrl:'https://picsum.photos/800/400?random=4',
-      redirectUrl:'https://www.qq.com/',
-      carouselRank:4,
-      createTime:'2025.1.18'
-    },
-    {
-      carouselUrl:'https://picsum.photos/800/400?random=5',
-      redirectUrl:'https://www.weibo.com/',
-      carouselRank:5,
-      createTime:'2025.1.19'
-    }
+    // {
+    //   carouselUrl:'https://picsum.photos/800/400?random=1',
+    //   redirectUrl:'https://www.baidu.com/',
+    //   carouselRank:1,
+    //   createTime:'2025.1.15'
+    // },
+    // {
+    //   carouselUrl:'https://picsum.photos/800/400?random=2',
+    //   redirectUrl:'https://www.taobao.com/',
+    //   carouselRank:2,
+    //   createTime:'2025.1.16'
+    // },
+    // {
+    //   carouselUrl:'https://picsum.photos/800/400?random=3',
+    //   redirectUrl:'https://www.jd.com/',
+    //   carouselRank:3,
+    //   createTime:'2025.1.17'
+    // },
+    // {
+    //   carouselUrl:'https://picsum.photos/800/400?random=4',
+    //   redirectUrl:'https://www.qq.com/',
+    //   carouselRank:4,
+    //   createTime:'2025.1.18'
+    // },
+    // {
+    //   carouselUrl:'https://picsum.photos/800/400?random=5',
+    //   redirectUrl:'https://www.weibo.com/',
+    //   carouselRank:5,
+    //   createTime:'2025.1.19'
+    // }
   ], //数据列表
   currentPage: 1, //当前页数
   pageSize: 10, //每页行数

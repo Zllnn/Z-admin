@@ -74,14 +74,14 @@ const state = reactive<State>({
 
 // 获取详情
 const getDetail = (id: string | number): void => {
-  // axios.get(`/categories/${id}`).then(res => {
-  //   state.ruleForm = {
-  //     name: res.categoryName,
-  //     rank: res.categoryRank
-  //   }
-  //   state.parentId = res.parentId
-  //   state.categoryLevel = res.categoryLevel
-  // })
+  axios.get(`/categories/${id}`).then((res:any) => {
+    state.ruleForm = {
+      name: res.categoryName,
+      rank: res.categoryRank
+    }
+    state.parentId = res.parentId
+    state.categoryLevel = res.categoryLevel
+  })
 };
 
 // 开启弹窗

@@ -8,7 +8,7 @@
           </div>
         </template>
         <div>
-          {{ state.data.orderStatusString }}
+          {{ $filters.orderMap(state.data?.orderStatusString) }}
         </div>
       </el-card>
       <el-card class="data-item" shadow="hover">
@@ -18,7 +18,7 @@
           </div>
         </template>
         <div>
-          {{ state.data.createTime }}
+          {{ state.data?.createTime }}
         </div>
       </el-card>
       <el-card class="data-item" shadow="hover">
@@ -28,7 +28,7 @@
           </div>
         </template>
         <div>
-          {{ state.data.orderNo }}
+          {{ state.data?.orderNo }}
         </div>
       </el-card>
     </div>
@@ -73,7 +73,7 @@ import { useRoute } from 'vue-router'
 import axios from '@/utils/axios'
 
 interface OrderData {
-  orderStatusString: string;
+  orderStatusString: number;
   createTime: string;
   orderNo: string;
 }
@@ -96,7 +96,7 @@ const { id } = route.query;
 
 const state = reactive<State>({
   data: {
-    orderStatusString: '待支付',
+    orderStatusString: 0,
     createTime: '2021-04-07 17:37:02',
     orderNo: '16177882220776231'
   },
@@ -113,10 +113,15 @@ const state = reactive<State>({
 
 onMounted(() => {
   // 初始化钩子，获取订单详情数据
-  // axios.get(`/orders/${id}`).then((res: any) => {
-  //   state.data = res;
-  //   state.tableData = res.newBeeMallOrderItemVOS;
-  // });
+  axios.get(`/orders/${id}`).then((res: any) => {
+    
+    if(res.data) {
+      state.data = res.data;
+      state.tableData = res.tableData;
+    }
+
+
+  });
 });
 </script>
 

@@ -1,3 +1,4 @@
+import { it } from 'node:test'
 import { MockMethod } from 'vite-plugin-mock'
 
 const mockGoods = [
@@ -5,7 +6,7 @@ const mockGoods = [
     createTime: "2024-01-15 10:30:00",
     goodsCarousel: "/admin/dist/img/no-img.png",
     goodsCategoryId: 1,
-    goodsCoverImg: "https://picsum.photos/400/400?random=1",
+    goodsCoverImg: "src/assets/goods.jpg",
     goodsDetailContent: "这是商品1的详细描述",
     goodsId: 1001,
     goodsIntro: "商品1简介",
@@ -21,7 +22,7 @@ const mockGoods = [
     createTime: "2024-01-15 11:00:00",
     goodsCarousel: "/admin/dist/img/no-img.png",
     goodsCategoryId: 2,
-    goodsCoverImg: "https://picsum.photos/400/400?random=2",
+    goodsCoverImg: "src/assets/goods.jpg",
     goodsDetailContent: "这是商品2的详细描述",
     goodsId: 1002,
     goodsIntro: "商品2简介",
@@ -37,7 +38,7 @@ const mockGoods = [
     createTime: "2024-01-15 12:00:00",
     goodsCarousel: "/admin/dist/img/no-img.png",
     goodsCategoryId: 3,
-    goodsCoverImg: "https://picsum.photos/400/400?random=3",
+    goodsCoverImg: "src/assets/goods.jpg",
     goodsDetailContent: "这是商品3的详细描述",
     goodsId: 1003,
     goodsIntro: "商品3简介",

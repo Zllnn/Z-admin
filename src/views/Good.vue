@@ -194,12 +194,12 @@ const changePage = (val:number) => {
 
 // 上下架方法，只修改上下架状态
 const handleStatus = (id:number, status:number) => {
-  // axios.put(`/goods/status/${status}`, {
-  //   ids: id ? [id] : []
-  // }).then(() => {
-  //   ElMessage.success('修改成功')
-  //   getGoodList()
-  // })
+  axios.put(`/goods/status/${status}`, {
+    ids: id ? [id] : []
+  }).then(() => {
+    ElMessage.success('修改成功')
+    getGoodList()
+  })
 }
 
 

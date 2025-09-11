@@ -28,19 +28,38 @@
 </template>
 
 <script setup lang="ts">
-import axios from '@/utils/axios';
 import { reactive, ref } from 'vue';
-import { ElMessage } from 'element-plus'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
+
+// 定义props接口
+interface Props {
+  type: 'add' | 'edit';
+  configType?: number;
+  reload?: () => void;
+}
+
+// 定义表单数据接口
+interface RuleForm {
+  name: string;
+  link: string;
+  id: string | number;
+  sort: string | number;
+}
+
+// 定义state接口
+interface State {
+  visible: boolean;
+  ruleForm: RuleForm;
+  rules: FormRules;
+  id: string | number;
+}
 
 //接收父组件传来的参数
-const props = defineProps({
-  type: String,
-  configType: Number,
-  reload: Function   //用于重新获取当前页的列表数据，相当于刷新
-})
+const props = defineProps<Props>() as Props;
 
-const formRef = ref(null) //获取表单
-const state = reactive({
+const formRef = ref<FormInstance | null>(null); //获取表单
+
+const state = reactive<State>({
   visible: false,
   ruleForm: {
     name: '',
@@ -50,89 +69,123 @@ const state = reactive({
   },
   rules: {
     name: [
-      { required: 'true', message: '名称不能为空', trigger: ['change'] }
+      { required: true, message: '名称不能为空', trigger: 'change' }
     ],
     id: [
-      { required: 'true', message: '编号不能为空', trigger: ['change'] }
+      { required: true, message: '编号不能为空', trigger: 'change' }
     ],
     sort: [
-      { required: 'true', message: '排序不能为空', trigger: ['change'] }
+      { required: true, message: '排序不能为空', trigger: 'change' }
     ]
   },
   id: '',//商品在数据库中存储的id，用于编辑的时候
-})
+});
 
 // 获取详情
-const getDetail = (id) => {
-  // axios.get(`/indexConfigs/${id}`).then(res => {
-  //   state.ruleForm = {
-  //     name: res.configName,
-  //     id: res.goodsId,
-  //     link: res.redirectUrl,
-  //     sort: res.configRank
-  //   }
-  // })
-}
+const getDetail = async (_id: string | number): Promise<void> => {
+  try {
+    // axios.get(`/indexConfigs/${_id}`).then((res) => {
+    //   state.ruleForm = {
+    //     name: res.configName,
+    //     id: res.goodsId,
+    //     link: res.redirectUrl,
+    //     sort: res.configRank
+    //   }
+    // })
+  } catch (error) {
+    console.error('获取详情失败:', error);
+    ElMessage.error('获取详情失败');
+  }
+};
 
 // 开启弹窗
-const open = (id) => {
-  state.visible = true
+const open = (id?: string | number): void => {
+  state.visible = true;
   if (id) {
-    state.id = id
-    getDetail(id)
+    state.id = id;
+    getDetail(id);
   } else {
     state.ruleForm = {
       name: '',
-      id: '',
       link: '',
+      id: '',
       sort: ''
-    }
+    };
   }
-}
+};
 
 // 关闭弹窗
-const close = () => {
-  state.visible = false
-}
+const close = (): void => {
+  state.visible = false;
+};
+
+// 定义API请求payload接口
+// interface AddConfigPayload {
+//   configType: number;
+//   configName: string;
+//   redirectUrl: string;
+//   goodsId: number;
+//   configRank: number;
+// }
+
+// interface UpdateConfigPayload extends AddConfigPayload {
+//   configId: string | number;
+// }
 
 //提交事件
-const submitForm = () => {
-  formRef.value.validate((valid) => {
+const submitForm = (): void => {
+  formRef.value?.validate((valid: boolean) => {
     if (valid) {
-      if (state.ruleForm.id < 0 || state.ruleForm.id > 200) {
-        ElMessage.error('商品编号不能小于 0 或大于 200')
-        return
+      const goodsId = Number(state.ruleForm.id);
+      if (goodsId < 0 || goodsId > 200) {
+        ElMessage.error('商品编号不能小于 0 或大于 200');
+        return;
       }
-      if (props.type == 'add') {
-        // axios.post('/indexConfigs', {
+
+      if (props.type === 'add') {
+        // const payload: AddConfigPayload = {
         //   configType: props.configType || 3,
         //   configName: state.ruleForm.name,
         //   redirectUrl: state.ruleForm.link,
-        //   goodsId: state.ruleForm.id,
-        //   configRank: state.ruleForm.sort
-        // }).then(() => {
-        //   ElMessage.success('添加成功')
-        //   state.visible = false
-        //   if (props.reload) props.reload()
-        // })
+        //   goodsId: goodsId,
+        //   configRank: Number(state.ruleForm.sort)
+        // };
+
+        // 使用payload发送请求
+        // axios.post('/indexConfigs', payload).then(() => {
+        //   ElMessage.success('添加成功');
+        //   state.visible = false;
+        //   props.reload?.();
+        // }).catch((error: any) => {
+        //   console.error('添加失败:', error);
+        //   ElMessage.error('添加失败');
+        // });
+        // console.log('添加商品:', payload); // 临时使用payload避免警告
       } else {
-        // axios.put('/indexConfigs', {
+        // const payload: UpdateConfigPayload = {
         //   configId: state.id,
         //   configType: props.configType || 3,
         //   configName: state.ruleForm.name,
         //   redirectUrl: state.ruleForm.link,
-        //   goodsId: state.ruleForm.id,
-        //   configRank: state.ruleForm.sort
-        // }).then(() => {
-        //   ElMessage.success('修改成功')
-        //   state.visible = false
-        //   if (props.reload) props.reload()
-        // })
+        //   goodsId: goodsId,
+        //   configRank: Number(state.ruleForm.sort)
+        // };
+
+        // 使用payload发送请求
+        // axios.put('/indexConfigs', payload).then(() => {
+        //   ElMessage.success('修改成功');
+        //   state.visible = false;
+        //   props.reload?.();
+        // }).catch((error: any) => {
+        //   console.error('修改失败:', error);
+        //   ElMessage.error('修改失败');
+        // });
+        // console.log('修改商品:', payload); // 临时使用payload避免警告
       }
     }
-  })
-}
-defineExpose({ open, close })
+  });
+};
+defineExpose({ open, close } as { open: (id?: string | number) => void; close: () => void })
 </script>
 
 <style scoped>

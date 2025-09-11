@@ -35,7 +35,7 @@
             :action="state.uploadImgServer"
             accept="jpg,jpeg,png"
             :headers="{
-              token: token
+              token: state.token
             }"
             :show-file-list="false"
             :before-upload="handleBeforeUpload"
@@ -189,25 +189,34 @@ onMounted(() => {
   
   if (id) {
     // 获取商品信息
-    // axios.get(`/goods/${id}`).then((res: any) => {
-    //   const { goods, firstCategory, secondCategory, thirdCategory } = res;
-    //   state.goodForm = {
-    //     goodsName: goods.goodsName,
-    //     goodsIntro: goods.goodsIntro,
-    //     originalPrice: goods.originalPrice,
-    //     sellingPrice: goods.sellingPrice,
-    //     stockNum: goods.stockNum,
-    //     goodsSellStatus: String(goods.goodsSellStatus),
-    //     goodsCoverImg: proxy?.$filters.prefix(goods.goodsCoverImg),
-    //     tag: goods.tag
-    //   };
-    //   state.categoryId = goods.goodsCategoryId;
-    //   state.defaultCate = `${firstCategory.categoryName}/${secondCategory.categoryName}/${thirdCategory.categoryName}`;
-    //   if (instance) {
-    //     // 初始化商品详情 html
-    //     instance.txt.html(goods.goodsDetailContent);
-    //   }
-    // });
+    axios.get(`/goods/${id}`).then((res: any) => {
+      // const { goods, firstCategory, secondCategory, thirdCategory } = res;
+      const firstCategory = {
+        categoryName:'图书教材'
+      }
+      const secondCategory = {
+        categoryName: '图书教材'
+      }
+      const thirdCategory = {
+        categoryName: '图书教材'
+      }
+      state.goodForm = {
+        goodsName: res.goodsName,
+        goodsIntro: res.goodsIntro,
+        originalPrice: res.originalPrice,
+        sellingPrice: res.sellingPrice,
+        stockNum: res.stockNum,
+        goodsSellStatus: String(res.goodsSellStatus),
+        goodsCoverImg: res.goodsCoverImg,
+        tag: res.tag
+      };
+      state.categoryId = res.goodsCategoryId;
+      state.defaultCate = `${firstCategory.categoryName}/${secondCategory.categoryName}/${thirdCategory.categoryName}`;
+      if (instance) {
+        // 初始化商品详情 html
+        instance.txt.html(res.goodsDetailContent);
+      }
+    });
   }
 });
 
@@ -238,11 +247,13 @@ const submitAdd = (): void => {
         tag: state.goodForm.tag
       };
       console.log('params', params);
+      //如果传入了id就是修改
       if (id) {
         params.goodsId = id;
         // 修改商品使用 put 方法
         httpOption = axios.put;
       }
+      //没传id就是增加
       httpOption('/goods', params).then(() => {
         ElMessage.success(id ? '修改成功' : '添加成功');
         router.push({ path: '/good' });

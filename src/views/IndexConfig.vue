@@ -178,18 +178,25 @@ onMounted(() => {
 // 首页热销商品列表   ,在接口中传入3，4，5分别对应是哪一个界面
 const getIndexConfig = () => {
   state.loading = true
-  // axios.get('/indexConfigs', {
-  //   params: {
-  //     pageNumber: state.currentPage,
-  //     pageSize: state.pageSize,
-  //     configType: state.configType
-  //   }
-  // }).then(res => {
-  //   state.tableData = res.list
-  //   state.total = res.totalCount
-  //   state.currentPage = res.currPage
-  //   state.loading = false
-  // })
+  axios.get('/indexConfigs', {
+    params: {
+      pageNumber: state.currentPage,
+      pageSize: state.pageSize,
+      configType: state.configType
+    }
+  }).then((res:any) => {
+    if(state.configType === 3) {
+      state.tableData = res.hotGoods
+    } else if(state.configType === 4) {
+      state.tableData = res.newGoods
+    } else if(state.configType === 5) {
+      state.tableData = res.recommendGoods
+    }
+    // state.tableData = res.list
+    // state.total = res.totalCount
+    // state.currentPage = res.currPage
+    // state.loading = false
+  })
 }
 
 //每次页面改变就请求数据

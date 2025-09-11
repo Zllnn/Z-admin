@@ -2,8 +2,9 @@ import { MockMethod } from 'vite-plugin-mock'
 
 export default [
   {
-    url: '/api/index-infos',
+    url: '/api/indexConfigs',
     method: 'get',
+    //根据configType来返回不同的数据
     response: () => {
       return {
         resultCode: 200,
@@ -11,33 +12,95 @@ export default [
         data: {
           carousels: [
             {
-              carouselId: 1,
-              carouselUrl: "https://via.placeholder.com/800x400/FF6B6B/FFFFFF?text=轮播图1",
-              redirectUrl: "/goods/1001"
+              configId: 1,
+              configName: '商品1',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 1,
+              goodsId: 1,
+              createTime: '2025-01-01',
             },
             {
-              carouselId: 2,
-              carouselUrl: "https://via.placeholder.com/800x400/4ECDC4/FFFFFF?text=轮播图2",
-              redirectUrl: "/goods/1002"
+              configId: 2,
+              configName: '商品2',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 2,
+              goodsId: 2,
+              createTime: '2025-01-01',
             }
           ],
           hotGoods: [
             {
-              goodsId: 1001,
-              goodsName: "二手iPhone 13",
-              goodsCoverImg: "https://via.placeholder.com/300x300/FF6B6B/FFFFFF?text=商品1",
-              sellingPrice: 3999
+              configId: 1,
+              configName: '商品1',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 1,
+              goodsId: 1,
+              createTime: '2025-01-01',
             },
             {
-              goodsId: 1002,
-              goodsName: "二手MacBook Pro",
-              goodsCoverImg: "https://via.placeholder.com/300x300/4ECDC4/FFFFFF?text=商品2",
-              sellingPrice: 8999
+              configId: 2,
+              configName: '商品2',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 2,
+              goodsId: 2,
+              createTime: '2025-01-01',
+            },
+            {
+              configId: 3,
+              configName: '商品3',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 3,
+              goodsId: 3,
+              createTime: '2025-01-01',
+            },
+            {
+              configId: 4,
+              configName: '商品4',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 4,
+              goodsId: 4,
+              createTime: '2025-01-01',
+            },
+            {
+              configId: 1,
+              configName: '商品1',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 1,
+              goodsId: 1,
+              createTime: '2025-01-01',
+            },
+            {
+              configId: 2,
+              configName: '商品2',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 2,
+              goodsId: 2,
+              createTime: '2025-01-01',
+            },
+            {
+              configId: 2,
+              configName: '商品2',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 2,
+              goodsId: 2,
+              createTime: '2025-01-01',
             }
           ],
           newGoods: [
             {
-              goodsId: 1003,
+              configId: 3,
+              configName: '商品3',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 3,
+              goodsId: 3,
+              createTime: '2025-01-01',
+            },
+            {
+              configId: 4,
+              configName: '商品4',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 4,
+              goodsId: 4,
               goodsName: "二手自行车",
               goodsCoverImg: "https://via.placeholder.com/300x300/45B7D1/FFFFFF?text=商品3",
               sellingPrice: 400
@@ -45,10 +108,20 @@ export default [
           ],
           recommendGoods: [
             {
-              goodsId: 1001,
-              goodsName: "二手iPhone 13",
-              goodsCoverImg: "https://via.placeholder.com/300x300/FF6B6B/FFFFFF?text=商品1",
-              sellingPrice: 3999
+              configId: 1,
+              configName: '商品1',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 1,
+              goodsId: 1,
+              createTime: '2025-01-01',
+            },
+            {
+              configId: 2,
+              configName: '商品2',
+              redirectUrl: 'https://www.baidu.com',
+              configRank: 2,
+              goodsId: 2,
+              createTime: '2025-01-01',
             }
           ]
         }
@@ -56,3 +129,4 @@ export default [
     }
   }
 ] as MockMethod[]
+

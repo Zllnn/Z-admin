@@ -3,7 +3,7 @@ import { MockMethod } from 'vite-plugin-mock'
 const mockSwipers = [
   {
     carouselId: 1,
-    carouselUrl: "https://picsum.photos/800/400?random=1",
+    carouselUrl: "src/assets/swiper.jpg",
     redirectUrl: "/goods/1001",
     carouselRank: 1,
     isDeleted: 0,
@@ -12,7 +12,7 @@ const mockSwipers = [
   },
   {
     carouselId: 2,
-    carouselUrl: "https://picsum.photos/800/400?random=2",
+    carouselUrl: "src/assets/swiper.jpg",
     redirectUrl: "/goods/1002",
     carouselRank: 2,
     isDeleted: 0,
@@ -21,7 +21,7 @@ const mockSwipers = [
   },
   {
     carouselId: 3,
-    carouselUrl: "https://picsum.photos/800/400?random=3",
+    carouselUrl: "src/assets/swiper.jpg",
     redirectUrl: "/goods/1003",
     carouselRank: 3,
     isDeleted: 0,

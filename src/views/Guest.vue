@@ -81,7 +81,7 @@ const tableData = ref<TableData[]>([
     loginName: 'zhangsan',
     lockedFlag: 0,
     isDeleted: 0,
-    createTime: '2021-04-07 17:37:02'
+    createTime: '2025-04-07 17:37:02'
   },
   {
     userId: 2,
@@ -89,7 +89,7 @@ const tableData = ref<TableData[]>([
     loginName: 'lisi',
     lockedFlag: 0,
     isDeleted: 0,
-    createTime: '2021-04-07 17:37:02'
+    createTime: '2025-04-07 17:37:02'
   }
 ])
 
@@ -100,6 +100,10 @@ const handleSolve = (): void => {
     ElMessage.error('请选择项');
     return;
   }
+  //接触table中选项的lockedFlag
+  table.value?.state.multipleSelection.forEach((item: any) => {
+    item.lockedFlag = 0;
+  });
   // axios.put(`/users/0`, {
   //   ids: table.value.state.multipleSelection.map((item: any) => item.userId)
   // }).then(() => {
@@ -116,6 +120,10 @@ const handleForbid = (): void => {
     ElMessage.error('请选择项');
     return;
   }
+  //禁用table中选项的lockedFlag
+  table.value?.state.multipleSelection.forEach((item: any) => {
+    item.lockedFlag = 1;
+  });
   // axios.put(`/users/1`, {
   //   ids: table.value.state.multipleSelection.map((item: any) => item.userId)
   // }).then(() => {
