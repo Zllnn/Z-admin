@@ -1,5 +1,16 @@
-# Vue 3 + Vite
+# Vue 3 + TypeScript + Vite + Element Plus + SCSS
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+
+### 项目概述
+
+1. 电商后台管理系统
+基于 Vue 3 Composition API 开发的现代化电商管理平台，支持完整的商品、订单、用户、内容管理功能。
+3. 组件化架构
+使用 Element Plus 组件库构建统一的设计系统，通过组件复用提高开发效率，支持按需引入减少打包体积。
+4. 路由权限管理
+基于 Vue Router 实现前端路由系统，支持页面懒加载和路由守卫，确保用户权限和页面访问控制。
+5. 数据持久化与缓存
+集成 LocalStorage 工具函数实现用户登录状态持久化，通过 Axios 拦截器统一管理 API 请求和响应。
+6. 样式系统设计
+采用 SCSS 预处理器构建完整的样式变量系统，支持响应式设计和主题定制，确保界面的一致性和美观性。
